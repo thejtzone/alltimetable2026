@@ -67,4 +67,16 @@ def new_timetable(timetable: list[str], day: int) -> list[dict]:
         'end': lastIndexes[x] + 1,
         'name': uniques[x]
     } for x, u in enumerate(uniques)]
-    
+
+def add_event(identifier: str, event: dict) -> bool:
+    try:
+        conn = psycopg2.connect(DB_CONN)
+        cur = conn.cursor()
+        cur.execute(f"UPDATE users SET timetable = array_append(timetable, '{event}') WHERE identifier = '{identifier}'")
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False

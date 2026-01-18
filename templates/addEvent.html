@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Add Event</h1>
+
+<input type="time" placeholder="Start time">
+<input type="time" placeholder="End time">
+<input type="text" placeholder="Event name">
+<input type="text" placeholder="Event description">
+<label for="day">Day of week</label>
+<input type="number" min="0" max="6" id="day">
+
+<button type="submit">Submit</button>
+
+{% endblock %}
+
+{% block extras %}
+
+    <script>
+
+        document.querySelector('button').addEventListener('click', () => {
+
+            const event = {
+                name: document.querySelector('input[type="text"]').value,
+                desc: document.querySelector('input[type="text"]').value,
+                start: document.querySelector('input[type="time"]').value,
+                end: document.querySelector('input[type="time"]').value,
+                day: document.querySelector('input[type="number"]').value
+            }
+
+            console.log(event)
+
+            $.ajax({
+                type: 'POST',
+                url: `/admin/addEvent/${window.location.pathname.split('/').at(-2)}`,
+                data: JSON.stringify(event),
+                contentType: 'application/json',
+                success: (data) => {
+                    console.log(data);
+                }
+            })
+
+        })
+
+    </script>
+
+{% endblock %}

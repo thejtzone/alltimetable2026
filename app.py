@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, jsonify
+from flask import Flask, render_template, redirect, jsonify, request
 app = Flask(__name__)
 PORT = 7554
 
@@ -18,6 +18,12 @@ def user_page(user): return render_template("user.html", user=user)
 
 @app.route('/api/getUser/<user>')
 def get_user(user): return jsonify(dbdata.get_user_timetable(user))
+
+@app.route('/admin/<user>/addEvent')
+def add_event(user): return render_template("addEvent.html", user=user)
+
+@app.route('/admin/addEvent/<user>', methods=['POST'])
+def add_event_post(user): return dbdata.add_event(user, request.get_json() or {})
 
 
 if __name__ == "__main__":
