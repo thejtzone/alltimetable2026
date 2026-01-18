@@ -21,7 +21,7 @@ function createTimetable() {
 
     div.style.display = "grid";
     div.style.gridTemplateColumns = `min-content repeat(7, 1fr)`;
-    div.style.gridTemplateRows = `repeat(${24 * 60}, min-content)`;
+    div.style.gridTemplateRows = `repeat(${24 * 60}, 1fr)`;
 
     const blanks = []
     for (let i = 0; i < 7; i++) {
