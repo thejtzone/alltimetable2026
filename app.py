@@ -14,9 +14,10 @@ def root(): return render_template("root.html", path="index")
 def catch_all(path): return "404 - Page not found"
 
 @app.route('/internal/user/<user>')
-def user_page(user):
-    timetable = dbdata.get_user_timetable(user)
-    return render_template("user.html", user=user, timetable=timetable)
+def user_page(user): return render_template("user.html", user=user)
+
+@app.route('/api/getUser/<user>')
+def get_user(user): return jsonify(dbdata.get_user_timetable(user))
 
 
 if __name__ == "__main__":
