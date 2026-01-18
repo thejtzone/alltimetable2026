@@ -15,7 +15,7 @@ def get_user_timetable(identifier: str) -> list:
     results = cur.fetchone()
     cur.close()
     conn.close()
-    return results
+    return results[0]
 
 def get_all_timetables() -> dict[str, list]:
     conn = psycopg2.connect(DB_CONN)
@@ -24,7 +24,7 @@ def get_all_timetables() -> dict[str, list]:
     results = cur.fetchall()
     cur.close()
     conn.close()
-    return dict(results)
+    return {r[0]: r[1] for r in results}
 
 
 
