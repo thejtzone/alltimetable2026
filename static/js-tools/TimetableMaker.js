@@ -72,9 +72,14 @@ function createTimetable(data) {
         times.push(time);
         
         time.textContent = `${pad(Math.floor(i / 60), 2)}:${pad(i % 60, 2)}`;
-        time.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
 
         div.appendChild(time);
+
+        let hr = document.createElement("div");
+        hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 8`;
+        hr.style.width = "100%";
+        hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
+        div.appendChild(hr);
     }
 
     const headers = [];
