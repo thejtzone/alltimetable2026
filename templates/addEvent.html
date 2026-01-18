@@ -22,10 +22,10 @@
         document.querySelector('button').addEventListener('click', () => {
 
             const event = {
-                name: document.querySelector('input[type="text"]').value,
-                desc: document.querySelector('input[type="text"]').value,
-                start: document.querySelector('input[type="time"]').value,
-                end: document.querySelector('input[type="time"]').value,
+                name: document.querySelectorAll('input[type="text"]')[0].value,
+                desc: document.querySelectorAll('input[type="text"]')[1].value,
+                start: document.querySelectorAll('input[type="time"]')[0].value,
+                end: document.querySelectorAll('input[type="time"]')[1].value,
                 day: document.querySelector('input[type="number"]').value
             }
 
