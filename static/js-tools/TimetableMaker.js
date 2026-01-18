@@ -41,6 +41,7 @@ function createTimetable(data) {
     div.style.display = "grid";
     div.style.gridTemplateColumns = `min-content 0.5fr repeat(5, 1fr) 0.5fr`;
     div.style.gridTemplateRows = `min-content repeat(${24 * 60}, min-content)`;
+    div.style.justifyItems = "center";
 
     const blanks = []
     for (let i = 0; i < 7; i++) {
@@ -92,6 +93,7 @@ function createTimetable(data) {
         eventDiv.style.gridArea = `${event.start + 2} / ${event.day + 1} / ${event.end + 2} / ${event.day + 1}`;
         eventDiv.style.backgroundColor = event.color || randCol();
         eventDiv.style.border = "1px solid black";
+        eventDiv.style.width = "65%";
 
         div.appendChild(eventDiv);
     })
