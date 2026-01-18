@@ -12,6 +12,8 @@ function isStringified(data) {
 }
 
 function createTimetable(data) {
+    console.log(`Creating timetable using data: ${data}`);
+
     const div = document.querySelector(`div#${DIV_ID}`);
     if (!div) return;
 
