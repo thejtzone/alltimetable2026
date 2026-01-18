@@ -17,7 +17,7 @@ function createTimetable(data) {
     const div = document.querySelector(`div#${DIV_ID}`);
     if (!div) return false;
 
-    data = isStringified(data | "[]") ? JSON.parse(data | "[]") : (data | []);
+    data = (data && isStringified(data | "[]")) ? JSON.parse(data | "[]") : (data | []);
     const earliest = data.sort((a, b) => a[0] - b[0])[0].start || "none";
     const latest = data.sort((a, b) => b[0] - a[0])[0].end || "none";
 
