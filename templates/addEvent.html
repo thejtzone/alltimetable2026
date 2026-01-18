@@ -38,6 +38,13 @@
                 contentType: 'application/json',
                 success: (data) => {
                     console.log(data);
+                    if (data.success) 
+                        alert('Event added');
+                    else alert('Failed to add event');
+                }, 
+                error: (data) => {
+                    console.error(data);
+                    alert('Failed to add event');
                 }
             })
 

@@ -70,12 +70,22 @@ def new_timetable(timetable: list[str], day: int) -> list[dict]:
 
 def add_event(identifier: str, event: dict) -> bool:
     try:
+        # Step 1: Fetch timetable
+        # Step 2: Add event
+        # Step 3: Update timetable
+
+        timetable = get_user_timetable(identifier)
+        if not timetable: timetable = []
+
+        timetable.append(event)
+
         conn = psycopg2.connect(DB_CONN)
         cur = conn.cursor()
-        cur.execute(f"UPDATE users SET timetable = array_append(timetable, '{event}') WHERE identifier = '{identifier}'")
+        cur.execute(f"UPDATE users SET timetable = '{str(timetable)}' WHERE identifier = '{identifier}'")
         conn.commit()
         cur.close()
         conn.close()
+
         return True
     except Exception as e:
         print(e)
