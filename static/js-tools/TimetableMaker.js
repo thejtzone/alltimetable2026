@@ -38,16 +38,22 @@ function createTimetable(data) {
         div.style.height = `${height / screenHeight * 100}dvh`;
     }
 
-    div.style.display = "grid";
-    div.style.gridTemplateColumns = `min-content 0.5fr repeat(5, 1fr) 0.5fr`;
-    div.style.gridTemplateRows = `min-content repeat(${24 * 60}, min-content)`;
-    div.style.justifyItems = "center";
+    let divStyles = {
+        display: "grid",
+        gridTemplateColumns: `min-content 0.5fr repeat(5, 1fr) 0.5fr`,
+        gridTemplateRows: `min-content repeat(${24 * 60}, min-content)`,
+        justifyItems: "center",
+        alignItems: "center",
+        gap: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
+    }
+    Object.entries(divStyles).forEach(([key, value]) => div.style[key] = value);
 
     const blanks = []
     for (let i = 0; i < 7; i++) {
         let blank = document.createElement("div");
         blank.style.gridArea = `2 / ${i + 2} / ${24 * 60} / ${i + 2}`;
         blank.style.borderLeft = "1px solid rgba(0, 0, 0, 0.05)";
+        blank.style.width = "100%";
         blanks.push(blank);
         div.appendChild(blank);
     }
