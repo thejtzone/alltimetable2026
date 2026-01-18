@@ -51,9 +51,13 @@ function createTimetable(data) {
     const blanks = []
     for (let i = 0; i < 7; i++) {
         let blank = document.createElement("div");
-        blank.style.gridArea = `2 / ${i + 2} / ${24 * 60} / ${i + 2}`;
-        blank.style.borderLeft = "1px solid rgba(0, 0, 0, 0.05)";
-        blank.style.width = "100%";
+        let blankStyles = {
+            gridArea: `2 / ${i + 2} / ${24 * 60} / ${i + 2}`,
+            borderLeft: "1px solid rgba(0, 0, 0, 0.05)",
+            width: "100%",
+            height: "100%",
+        }
+        Object.entries(blankStyles).forEach(([key, value]) => blank.style[key] = value);
         blanks.push(blank);
         div.appendChild(blank);
     }
@@ -85,6 +89,7 @@ function createTimetable(data) {
         let hr = document.createElement("div");
         hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
         hr.style.width = "100%";
+        hr.style.height = "100%";
         hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
         div.appendChild(hr);
     }
