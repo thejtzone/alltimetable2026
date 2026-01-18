@@ -11,6 +11,10 @@ function isStringified(data) {
     }
 }
 
+let tooltip;
+let mouseX;
+let mouseY;
+
 function createTimetable(data) {
     console.log(`Creating timetable using data: ${String(data)}`);
 
@@ -82,7 +86,7 @@ function createTimetable(data) {
         time.style.gridArea = `${i + 1} / 1 / ${i + 2} / 1`;
         times.push(time);
         
-        time.textContent = `${pad(Math.floor(i / 60), 2)}:${pad(i % 60, 2)}`;
+        time.textContent = neatTime(i);
 
         div.appendChild(time);
 
@@ -109,7 +113,7 @@ function createTimetable(data) {
         div.appendChild(header);
     }
 
-    (data || []).forEach(event => {
+    (data || []).forEach((event, idx) => {
         let eventDiv = document.createElement("div");
         let styles = {
             gridArea: `${event.start + 2} / ${event.day + 2} / ${event.end + 2} / ${event.day + 2}`,
@@ -120,15 +124,76 @@ function createTimetable(data) {
             borderRadius: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
+        eventDiv.dataset.name = event.name;
+        eventDiv.dataset.eID = idx;
 
         div.appendChild(eventDiv);
     })
 
+    div.addEventListener("mousemove", (e) => {
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+        let target = e.target;
+        if (target.dataset.eID) return;
+        if (tooltip) tooltip.remove();
+    });
+
     return true;
+}
+
+function moveTooltip(event, eID) {
+    if (!tooltip) {
+        tooltip = document.createElement("div");
+        tooltip.id = "tooltip";
+        document.body.appendChild(tooltip);
+    }
+
+    let tooltipStyles = {
+        position: "fixed",
+        left: mouseX,
+        top: mouseY,
+        backgroundColor: document.querySelector(`div#${DIV_ID} > div:nth-child(${eID + 1})`).style.backgroundColor,
+        borderRadius: "0.5dvh",
+        padding: "0.5dvh",
+        zIndex: 9999,
+        boxShadow: `0 0 1dvh rgb(10, 10, 10)`,
+        border: "1px solid rgb(0, 0, 0)",
+        minWidth: "10dvh",
+        minHeight: "10dvh"
+    }
+    Object.entries(tooltipStyles).forEach(([key, value]) => tooltip.style[key] = value);
+
+    createElement("h2", {tc: event.name, append: tooltip});
+    createElement("p", {tc: event.description, append: tooltip});
+    createElement("p", {tc: `${neatTime(event.start)} - ${neatTime(event.end)}`, append: tooltip});
+
+    let width = tooltip.getBoundingClientRect().width;
+    let height = tooltip.getBoundingClientRect().height;
+    if (mouseX + width > window.innerWidth) tooltip.style.left = `${mouseX - width}px`;
+    if (mouseY + height > window.innerHeight) tooltip.style.top = `${mouseY - height}px`;
 }
 
 function pad(number, digits) {return String(number).padStart(digits, "0");}
 function randCol() {return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`; }
+function neatTime(time) {return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`}
+
+function createElement(element, options = {}) {
+    const el = document.createElement(element);
+
+    if (options.textContent || options.tc) el.textContent = options.textContent || options.tc;
+    if (options.innerHTML) el.innerHTML = options.innerHTML;
+    if (options.classname) el.classList.add(options.classname);
+    if (options.classes?.length > 0) {
+        const validClasses = options.classes.filter(cls => typeof cls === 'string' && cls.trim());
+        el.classList.add(...validClasses);  // Safe against elements [web:25]
+    }
+    if (options.id) el.id = options.id;
+    if (options.name) el.name = options.name;
+    if (options.styles) Object.assign(el.style, options.styles);
+    if (options.append) options.append.appendChild(el);
+
+    return el;
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
     let data = await fetch(`/api/getUser/${window.location.pathname.split("/").pop()}`).then(res => res.json() || []);
