@@ -92,6 +92,8 @@ function createTimetable(data) {
         eventDiv.style.gridArea = `${event.start + 2} / ${event.day + 2} / ${event.end + 2} / ${event.day + 2}`;
         eventDiv.style.backgroundColor = event.color || randCol();
         eventDiv.style.border = "1px solid black";
+
+        div.appendChild(eventDiv);
     })
 
     return true;
