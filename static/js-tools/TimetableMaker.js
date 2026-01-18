@@ -24,7 +24,7 @@ function createTimetable() {
 
     div.style.display = "grid";
     div.style.gridTemplateColumns = `min-content repeat(7, 1fr)`;
-    div.style.gridTemplateRows = `min-content repeat(${24 * 60}, 1fr)`;
+    div.style.gridTemplateRows = `min-content repeat(${24 * 60}, min(${height / ASPECT_RATIO}dv${heightWidthRatio < ASPECT_RATIO ? "h" : "w"}, min-content))`;
 
     const blanks = []
     for (let i = 0; i < 7; i++) {
@@ -52,6 +52,7 @@ function createTimetable() {
         let header = document.createElement("div");
         header.style.gridArea = `1 / ${i + 1} / 1 / ${i + 1}`;
         header.style.fontWeight = "bold";
+        header.style.textAlign = "center";
         headers.push(header);
 
         header.textContent = ["Time", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
