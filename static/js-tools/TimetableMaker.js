@@ -79,7 +79,7 @@ function createTimetable(data) {
         }
 
         let time = document.createElement("div");
-        time.style.gridArea = `${i + 2} / 1 / ${i + 2} / 1`;
+        time.style.gridArea = `${i + 1} / 1 / ${i + 2} / 1`;
         times.push(time);
         
         time.textContent = `${pad(Math.floor(i / 60), 2)}:${pad(i % 60, 2)}`;
