@@ -39,10 +39,12 @@ function createTimetable() {
         time.style.gridArea = `${i + 1} / 1 / ${i + 1} / 1`;
         times.push(time);
         
-        time.textContent = `${Math.floor(i / 60)}:${i % 60}`;
+        time.textContent = `${pad(Math.floor(i / 60), 2)}:${pad(i % 60, 2)}`;
 
         div.appendChild(time);
     }
 }
+
+function pad(number, digits) {return String(number).padStart(digits, "0");}
 
 document.addEventListener("DOMContentLoaded", createTimetable)
