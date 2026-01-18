@@ -8,7 +8,7 @@ import dbdata
 def path_root(path): return render_template("root.html", path=path)
 
 @app.route('/')
-def root(): return render_template("root.html", path="")
+def root(): return render_template("root.html", path="index")
 
 @app.route('/internal/user/<user>')
 def user_page(user):
