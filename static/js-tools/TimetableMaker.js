@@ -132,7 +132,7 @@ function createTimetable(data) {
         div.appendChild(eventDiv);
     })
 
-    div.addEventListener("mousemove", (e) => {
+    document.addEventListener("mousemove", (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
         let target = e.target;
