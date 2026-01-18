@@ -138,6 +138,7 @@ function createTimetable(data) {
         let target = e.target;
         if (target.dataset.eid) return;
         if (tooltip) tooltip.remove();
+        tooltip = undefined;
     });
 
     return true;
