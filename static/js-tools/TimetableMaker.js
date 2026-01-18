@@ -161,7 +161,9 @@ function moveTooltip(event, eID) {
         boxShadow: `0 0 1dvh rgb(10, 10, 10)`,
         border: "1px solid rgb(0, 0, 0)",
         minWidth: "10dvh",
-        minHeight: "10dvh"
+        minHeight: "10dvh",
+        mouseEvents: "none",
+        userSelect: "none"
     }
     Object.entries(tooltipStyles).forEach(([key, value]) => tooltip.style[key] = value);
 
