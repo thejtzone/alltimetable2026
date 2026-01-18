@@ -24,12 +24,12 @@ function createTimetable() {
 
     div.style.display = "grid";
     div.style.gridTemplateColumns = `min-content repeat(7, 1fr)`;
-    div.style.gridTemplateRows = `repeat(${24 * 60}, 1fr)`;
+    div.style.gridTemplateRows = `min-content repeat(${24 * 60}, 1fr)`;
 
     const blanks = []
     for (let i = 0; i < 7; i++) {
         let blank = document.createElement("div");
-        blank.style.gridArea = `1 / ${i + 2} / ${24 * 60 - 1} / ${i + 2}`;
+        blank.style.gridArea = `2 / ${i + 2} / ${24 * 60} / ${i + 2}`;
         blanks.push(blank);
         div.appendChild(blank);
     }
@@ -39,12 +39,23 @@ function createTimetable() {
         if (i % 30 != 0) continue;
 
         let time = document.createElement("div");
-        time.style.gridArea = `${i + 1} / 1 / ${i + 1} / 1`;
+        time.style.gridArea = `${i + 1} / 2 / ${i + 1} / 2`;
         times.push(time);
         
         time.textContent = `${pad(Math.floor(i / 60), 2)}:${pad(i % 60, 2)}`;
 
         div.appendChild(time);
+    }
+
+    const headers = [];
+    for (let i = 0; i < 8; i++) {
+        let header = document.createElement("div");
+        header.style.gridArea = `1 / ${i + 1} / 2 / ${i + 1}`;
+        header.style.fontWeight = "bold";
+        headers.push(header);
+
+        header.textContent = ["Time", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
+        div.appendChild(header);
     }
 }
 
