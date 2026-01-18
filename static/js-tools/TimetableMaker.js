@@ -54,13 +54,16 @@ function createTimetable(data) {
     for (let i = 0; i < 24 * 60; i++) {
         if (i % 30 != 0) continue;
 
+        // Filter out times before 8am unless there is an event earlier than 8am
         if (i < 8 * 60) {
-            if (earliest instanceof String) continue;
-            if (i > earliest) continue;
+            if (earliest == "none") continue;
+            if (i < earliest) continue;
         }
+
+        // Filter out times after 7pm unless there is an event later than 7pm
         if (i > 19 * 60) {
-            if (latest instanceof String) continue;
-            if (i < latest) continue;
+            if (latest == "none") continue;
+            if (i > latest) continue;
         }
 
         let time = document.createElement("div");
