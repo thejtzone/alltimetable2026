@@ -93,6 +93,7 @@ function createTimetable(data) {
 
         header.textContent = ["Time", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
         header.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
+        header.style.width = "100%";
         div.appendChild(header);
     }
 
