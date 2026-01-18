@@ -30,6 +30,19 @@ function createTimetable() {
         blanks.push(blank);
         div.appendChild(blank);
     }
+
+    const times = [];
+    for (let i = 0; i < 24 * 60; i++) {
+        if (i % 30 != 0) continue;
+
+        let time = document.createElement("div");
+        time.style.gridArea = `${i + 1} / 1 / ${i + 1} / 1`;
+        times.push(time);
+        
+        time.textContent = `${Math.floor(i / 60)}:${i % 60}`;
+
+        div.appendChild(time);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", createTimetable)
