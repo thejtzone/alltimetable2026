@@ -81,7 +81,7 @@ function createTimetable(data) {
         hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
         div.appendChild(hr);
     }
-    times.at(-1).style.borderBottom = "";
+    Array.from(div.children).at(-1).style.borderBottom = "";
 
     const headers = [];
     for (let i = 0; i < 8; i++) {
