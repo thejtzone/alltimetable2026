@@ -44,7 +44,7 @@ function createTimetable(data) {
         gridTemplateRows: `min-content repeat(${24 * 60}, min-content)`,
         justifyItems: "center",
         alignItems: "center",
-        gap: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
+        gridColumnGap: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
     }
     Object.entries(divStyles).forEach(([key, value]) => div.style[key] = value);
 
