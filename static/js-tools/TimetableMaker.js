@@ -81,6 +81,7 @@ function createTimetable(data) {
         hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
         div.appendChild(hr);
     }
+    times.at(-1).style.borderBottom = "";
 
     const headers = [];
     for (let i = 0; i < 8; i++) {
@@ -91,6 +92,7 @@ function createTimetable(data) {
         headers.push(header);
 
         header.textContent = ["Time", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
+        header.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
         div.appendChild(header);
     }
 
