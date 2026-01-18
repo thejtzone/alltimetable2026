@@ -5,8 +5,10 @@ PORT = 7554
 import dbdata
 
 @app.route('/<path:path>') 
-def root(path): return render_template("root.html", path=path)
+def path_root(path): return render_template("root.html", path=path)
 
+@app.route('/')
+def root(): return render_template("root.html", path="")
 
 @app.route('/internal/user/<user>')
 def user_page(user):
