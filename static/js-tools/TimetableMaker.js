@@ -40,7 +40,7 @@ function createTimetable(data) {
 
     div.style.display = "grid";
     div.style.gridTemplateColumns = `min-content repeat(7, 1fr)`;
-    div.style.gridTemplateRows = `min-content repeat(${24 * 60}, min(${height / ASPECT_RATIO}dv${heightWidthRatio < ASPECT_RATIO ? "h" : "w"}, min-content))`;
+    div.style.gridTemplateRows = `min-content repeat(${24 * 60}, min-content)`;
 
     const blanks = []
     for (let i = 0; i < 7; i++) {
