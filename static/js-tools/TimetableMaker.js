@@ -132,13 +132,13 @@ function createTimetable(data) {
         div.appendChild(eventDiv);
     })
 
-    // div.addEventListener("mousemove", (e) => {
-    //     mouseX = e.pageX;
-    //     mouseY = e.pageY;
-    //     let target = e.target;
-    //     if (target.dataset.eID) return;
-    //     if (tooltip) tooltip.remove();
-    // });
+    div.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        let target = e.target;
+        if (target.dataset.eID) return;
+        if (tooltip) tooltip.remove();
+    });
 
     return true;
 }
