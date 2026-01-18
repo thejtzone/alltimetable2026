@@ -12,7 +12,7 @@ function isStringified(data) {
 }
 
 function createTimetable(data) {
-    console.log(`Creating timetable using data: ${data}`);
+    console.log(`Creating timetable using data: ${String(data)}`);
 
     const div = document.querySelector(`div#${DIV_ID}`);
     if (!div) return;
