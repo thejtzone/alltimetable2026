@@ -125,7 +125,7 @@ function createTimetable(data) {
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
         eventDiv.dataset.name = event.name;
-        eventDiv.dataset.eID = idx;
+        eventDiv.dataset.eid = idx;
 
         eventDiv.addEventListener("mousemove", e => moveTooltip(event, idx));
 
@@ -154,7 +154,7 @@ function moveTooltip(event, eID) {
         position: "fixed",
         left: mouseX,
         top: mouseY,
-        backgroundColor: document.querySelector(`div#${DIV_ID} div[data-eID="${eID}"]`).style.backgroundColor,
+        backgroundColor: document.querySelector(`div#${DIV_ID} div[data-eid="${eID}"]`).style.backgroundColor,
         borderRadius: "0.5dvh",
         padding: "0.5dvh",
         zIndex: 9999,
