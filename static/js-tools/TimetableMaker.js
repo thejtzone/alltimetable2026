@@ -15,7 +15,7 @@ function createTimetable(data) {
     console.log(`Creating timetable using data: ${String(data)}`);
 
     const div = document.querySelector(`div#${DIV_ID}`);
-    if (!div) return;
+    if (!div) return false;
 
     data = isStringified(data | "[]") ? JSON.parse(data | "[]") : (data | []);
     const earliest = data.sort((a, b) => a[0] - b[0])[0].start || "none";
@@ -83,15 +83,16 @@ function createTimetable(data) {
         header.textContent = ["Time", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
         div.appendChild(header);
     }
+
+
+    return true;
 }
 
 function pad(number, digits) {return String(number).padStart(digits, "0");}
 
 document.addEventListener("DOMContentLoaded", async () => {
-    let data = await $.ajax({
-        type: "GET",
-        url: `/api/getUser/${window.location.pathname.split("/").pop()}`,
-        dataType: "json"
-    })
-    createTimetable(data);
+    let data = await fetch(`/api/getUser/${window.location.pathname.split("/").pop()}`).then(res => res.json() || []);
+    if (!createTimetable(data)) 
+        console.error("An error occurred the timetable creator had to exit early.");
+    else console.log("Timetable created successfully!");
 })
