@@ -39,7 +39,7 @@ function createTimetable() {
         if (i % 30 != 0) continue;
 
         let time = document.createElement("div");
-        time.style.gridArea = `${i + 1} / 2 / ${i + 1} / 2`;
+        time.style.gridArea = `${i + 1} / 1 / ${i + 1} / 1`;
         times.push(time);
         
         time.textContent = `${pad(Math.floor(i / 60), 2)}:${pad(i % 60, 2)}`;
@@ -50,7 +50,7 @@ function createTimetable() {
     const headers = [];
     for (let i = 0; i < 8; i++) {
         let header = document.createElement("div");
-        header.style.gridArea = `1 / ${i + 1} / 2 / ${i + 1}`;
+        header.style.gridArea = `1 / ${i + 1} / 1 / ${i + 1}`;
         header.style.fontWeight = "bold";
         headers.push(header);
 
