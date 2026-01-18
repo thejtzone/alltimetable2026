@@ -21,6 +21,8 @@ function createTimetable(data) {
     const earliest = data.legnth > 0 ? data.sort((a, b) => a.start - b.start)[0].start : "none";
     const latest = data.legnth > 0 ? data.sort((a, b) => b.end - a.end)[0].end : "none";
 
+    console.log(`earliest: ${earliest}, latest: ${latest}`);
+
     div.innerHTML = "";
 
     const width = Math.min(div.clientWidth, window.innerWidth);
