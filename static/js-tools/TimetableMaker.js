@@ -39,7 +39,7 @@ function createTimetable(data) {
     }
 
     div.style.display = "grid";
-    div.style.gridTemplateColumns = `min-content repeat(7, 1fr)`;
+    div.style.gridTemplateColumns = `min-content 0.5fr repeat(5, 1fr) 0.5fr`;
     div.style.gridTemplateRows = `min-content repeat(${24 * 60}, min-content)`;
 
     const blanks = []
@@ -83,7 +83,7 @@ function createTimetable(data) {
         header.style.textAlign = "center";
         headers.push(header);
 
-        header.textContent = ["Time", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
+        header.textContent = ["Time", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
         div.appendChild(header);
     }
 
