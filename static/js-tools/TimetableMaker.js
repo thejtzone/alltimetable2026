@@ -127,6 +127,8 @@ function createTimetable(data) {
         eventDiv.dataset.name = event.name;
         eventDiv.dataset.eID = idx;
 
+        eventDiv.addEventListener("mousemove", e => moveTooltip(event, idx));
+
         div.appendChild(eventDiv);
     })
 
