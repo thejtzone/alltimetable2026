@@ -18,8 +18,8 @@ function createTimetable(data) {
     if (!div) return false;
 
     data = (String(data).trim() && isStringified(data || "[]")) ? JSON.parse(data || "[]") : (data || []);
-    const earliest = data.sort((a, b) => a[0] - b[0])[0].start || "none";
-    const latest = data.sort((a, b) => b[0] - a[0])[0].end || "none";
+    const earliest = data.legnth > 0 ? data.sort((a, b) => a[0] - b[0])[0].start : "none";
+    const latest = data.legnth > 0 ? data.sort((a, b) => b[0] - a[0])[0].end : "none";
 
     div.innerHTML = "";
 
