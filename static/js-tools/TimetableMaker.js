@@ -50,7 +50,7 @@ function createTimetable() {
     const headers = [];
     for (let i = 0; i < 8; i++) {
         let header = document.createElement("div");
-        header.style.gridArea = `2 / ${i + 1} / 2 / ${i + 1}`;
+        header.style.gridArea = `1 / ${i + 1} / 1 / ${i + 1}`;
         header.style.fontWeight = "bold";
         headers.push(header);
 
