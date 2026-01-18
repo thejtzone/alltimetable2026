@@ -10,9 +10,14 @@ function createTimetable() {
     const width = div.clientWidth;
     const height = div.clientHeight;
     const heightWidthRatio = height / width;
-    if (heightWidthRatio < ASPECT_RATIO) 
+    if (heightWidthRatio < ASPECT_RATIO) {
         div.style.height = `${width * ASPECT_RATIO}px`;
-    else div.style.width = `${height / ASPECT_RATIO}px`;
+        div.style.width = `${width}px`;
+    }
+    else {
+        div.style.width = `${height / ASPECT_RATIO}px`;
+        div.style.height = `${height}px`;
+    }
 
     div.style.display = "grid";
     div.style.gridTemplateColumns = `min-content repeat(7, 1fr)`;
