@@ -1,9 +1,23 @@
 const DIV_ID = "timetable";
 const ASPECT_RATIO = 3 / 5;
 
-function createTimetable() {
+function isStringified(data) {
+    if (typeof str !== "string") return false;
+    try {
+        JSON.parse(str);
+        return true;   // valid JSON text
+    } catch {
+        return false;  // not valid JSON text
+    }
+}
+
+function createTimetable(data) {
     const div = document.querySelector(`div#${DIV_ID}`);
     if (!div) return;
+
+    data = isStringified(data | "[]") ? JSON.parse(data | "[]") : (data | []);
+    const earliest = data.sort((a, b) => a[0] - b[0])[0].start || "none";
+    const latest = data.sort((a, b) => b[0] - a[0])[0].end || "none";
 
     div.innerHTML = "";
 
@@ -37,6 +51,15 @@ function createTimetable() {
     const times = [];
     for (let i = 0; i < 24 * 60; i++) {
         if (i % 30 != 0) continue;
+
+        if (i < 8 * 60) {
+            if (earliest instanceof String) continue;
+            if (earliest < i) continue;
+        }
+        if (i > 19 * 60) {
+            if (latest instanceof String) continue;
+            if (latest > i) continue;
+        }
 
         let time = document.createElement("div");
         time.style.gridArea = `${i + 2} / 1 / ${i + 2} / 1`;
