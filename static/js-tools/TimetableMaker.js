@@ -78,7 +78,7 @@ function createTimetable(data) {
         let hr = document.createElement("div");
         hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
         hr.style.width = "100%";
-        hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
+        hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
         div.appendChild(hr);
     }
 
@@ -96,10 +96,15 @@ function createTimetable(data) {
 
     (data || []).forEach(event => {
         let eventDiv = document.createElement("div");
-        eventDiv.style.gridArea = `${event.start + 2} / ${event.day + 1} / ${event.end + 2} / ${event.day + 1}`;
-        eventDiv.style.backgroundColor = event.color || randCol();
-        eventDiv.style.border = "1px solid black";
-        eventDiv.style.width = "65%";
+        let styles = {
+            gridArea: `${event.start + 2} / ${event.day + 2} / ${event.end + 2} / ${event.day + 2}`,
+            backgroundColor: event.color || randCol(),
+            // border: "1px solid black",
+            boxShadow: `0 0 ${heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh"} rgba(0, 0, 0, 0.4)`,
+            width: "65%",
+            borderRadius: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
+        }
+        Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
 
         div.appendChild(eventDiv);
     })
