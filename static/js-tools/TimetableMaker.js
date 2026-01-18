@@ -56,11 +56,11 @@ function createTimetable(data) {
 
         if (i < 8 * 60) {
             if (earliest instanceof String) continue;
-            if (earliest < i) continue;
+            if (i > earliest) continue;
         }
         if (i > 19 * 60) {
             if (latest instanceof String) continue;
-            if (latest > i) continue;
+            if (i < latest) continue;
         }
 
         let time = document.createElement("div");
