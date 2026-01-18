@@ -17,9 +17,9 @@ function createTimetable(data) {
     const div = document.querySelector(`div#${DIV_ID}`);
     if (!div) return false;
 
-    data = (String(data).trim() && isStringified(data || "[]")) ? JSON.parse(data || "[]") : (data || []);
-    const earliest = data.legnth > 0 ? data.sort((a, b) => a[0] - b[0])[0].start : "none";
-    const latest = data.legnth > 0 ? data.sort((a, b) => b[0] - a[0])[0].end : "none";
+    data = isStringified(data || "[]") ? JSON.parse(data || "[]") : (data || []);
+    const earliest = data.legnth > 0 ? data.sort((a, b) => a.start - b.start)[0].start : "none";
+    const latest = data.legnth > 0 ? data.sort((a, b) => b.end - a.end)[0].end : "none";
 
     div.innerHTML = "";
 
