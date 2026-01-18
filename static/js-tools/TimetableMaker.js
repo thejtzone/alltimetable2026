@@ -7,16 +7,19 @@ function createTimetable() {
 
     div.innerHTML = "";
 
-    const width = div.clientWidth;
+    const width = Math.min(div.clientWidth, window.innerWidth);
     const height = div.clientHeight;
     const heightWidthRatio = height / width;
+
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
     if (heightWidthRatio < ASPECT_RATIO) {
-        div.style.height = `${width * ASPECT_RATIO}px`;
-        div.style.width = `${width}px`;
+        div.style.height = `${(width * ASPECT_RATIO) / screenWidth}dvw`;
+        div.style.width = `${width / screenWidth}dvw`;
     }
     else {
-        div.style.width = `${height / ASPECT_RATIO}px`;
-        div.style.height = `${height}px`;
+        div.style.width = `${(height / ASPECT_RATIO) / screenHeight}dvh`;
+        div.style.height = `${height / screenHeight}dvh`;
     }
 
     div.style.display = "grid";
