@@ -154,7 +154,7 @@ function moveTooltip(event, eID) {
         position: "fixed",
         left: mouseX,
         top: mouseY,
-        backgroundColor: document.querySelector(`div#${DIV_ID} > div:nth-child(${eID + 1})`).style.backgroundColor,
+        backgroundColor: document.querySelector(`div#${DIV_ID} div[data-eID="${eID}"]`).style.backgroundColor,
         borderRadius: "0.5dvh",
         padding: "0.5dvh",
         zIndex: 9999,
@@ -164,6 +164,8 @@ function moveTooltip(event, eID) {
         minHeight: "10dvh"
     }
     Object.entries(tooltipStyles).forEach(([key, value]) => tooltip.style[key] = value);
+
+    tooltip.innerHTML = "";
 
     createElement("h2", {tc: event.name, append: tooltip});
     createElement("p", {tc: event.description, append: tooltip});
