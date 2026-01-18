@@ -26,7 +26,7 @@ function createTimetable() {
     const blanks = []
     for (let i = 0; i < 7; i++) {
         let blank = document.createElement("div");
-        blank.style.gridArea = `1 / ${i + 2} / ${24 * 60} / ${i + 2}`;
+        blank.style.gridArea = `1 / ${i + 2} / ${24 * 60 - 1} / ${i + 2}`;
         blanks.push(blank);
         div.appendChild(blank);
     }
