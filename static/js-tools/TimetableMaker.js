@@ -14,37 +14,16 @@ function createTimetable() {
         div.style.height = `${width * ASPECT_RATIO}px`;
     else div.style.width = `${height / ASPECT_RATIO}px`;
 
-    const table = document.createElement("table");
-    div.appendChild(table);
+    div.style.display = "grid";
+    div.style.gridTemplateColumns = `min-content repeat(7, 1fr)`;
+    div.style.gridTemplateRows = `repeat(calc(24 * 60), min-content)`;
 
-    const tbody = document.createElement("tbody");
-    table.appendChild(tbody);
-    
-
-    // Table needs to be: 7 cols x 24 * 60 rows (1440)
-    let headers = [];
-    let rows = [];
-
-    const header_row = document.createElement("tr");
-    tbody.appendChild(header_row);
-
-    for (let i = 0; i < 7; i++) {        
-        const th = document.createElement("th");
-        th.textContent = "Day " + (i + 1);
-        headers.push(th);
-        header_row.appendChild(th);
-    }
-
-    for (let i = 0; i < 24 * 60; i++) {
-        const tr = document.createElement("tr");
-        tbody.appendChild(tr);
-        rows.push(tr);
-
-        for (let j = 0; j < 7; j++) {
-            const td = document.createElement("td");
-            tr.appendChild(td);
-            td.textContent = i + j * 1440;
-        }
+    const blanks = []
+    for (let i = 0; i < 7; i++) {
+        let blank = document.createElement("div");
+        blank.style.gridArea = `${i + 2} / 1 / span ${24 * 60} / span 1`;
+        blanks.push(blank);
+        div.appendChild(blank);
     }
 }
 
