@@ -24,8 +24,8 @@
             const event = {
                 name: document.querySelectorAll('input[type="text"]')[0].value,
                 desc: document.querySelectorAll('input[type="text"]')[1].value,
-                start: document.querySelectorAll('input[type="time"]')[0].value,
-                end: document.querySelectorAll('input[type="time"]')[1].value,
+                start: document.querySelectorAll('input[type="time"]')[0].valueAsNumber / (60 * 1000),
+                end: document.querySelectorAll('input[type="time"]')[1].valueAsNumber / (60 * 1000),
                 day: document.querySelector('input[type="number"]').value
             }
 
