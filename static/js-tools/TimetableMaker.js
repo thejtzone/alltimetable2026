@@ -1,5 +1,5 @@
 const DIV_ID = "timetable";
-const ASPECT_RATIO = 4 / 3;
+const ASPECT_RATIO = 5 / 3;
 
 function createTimetable() {
     const div = document.querySelector(`div#${DIV_ID}`);
