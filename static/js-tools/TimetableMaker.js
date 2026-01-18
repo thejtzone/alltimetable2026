@@ -132,9 +132,9 @@ function createTimetable(data) {
         div.appendChild(eventDiv);
     })
 
-    document.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+    div.addEventListener("mousemove", (e) => {
+        mouseX = e.pageX;
+        mouseY = e.pageY;
         let target = e.target;
         if (target.dataset.eid) return;
         if (tooltip) tooltip.remove();
@@ -153,8 +153,8 @@ function moveTooltip(event, eID) {
 
     let tooltipStyles = {
         position: "fixed",
-        left: mouseX,
-        top: mouseY,
+        left: `${mouseX}px`,
+        top: `${mouseY}px`,
         backgroundColor: document.querySelector(`div#${DIV_ID} div[data-eid="${eID}"]`).style.backgroundColor,
         borderRadius: "0.5dvh",
         padding: "0.5dvh",
