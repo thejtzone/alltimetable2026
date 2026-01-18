@@ -25,14 +25,14 @@ function createTimetable() {
     let headers = [];
     let rows = [];
 
-    for (let i = 0; i < 7; i++) {
-        const row = document.createElement("tr");
-        tbody.appendChild(row);
-        
+    const header_row = document.createElement("tr");
+    tbody.appendChild(header_row);
+
+    for (let i = 0; i < 7; i++) {        
         const th = document.createElement("th");
         th.textContent = "Day " + (i + 1);
         headers.push(th);
-        row.appendChild(th);
+        header_row.appendChild(th);
     }
 
     for (let i = 0; i < 24 * 60; i++) {
@@ -40,9 +40,11 @@ function createTimetable() {
         tbody.appendChild(tr);
         rows.push(tr);
 
-        const td = document.createElement("td");
-        td.textContent = i;
-        tr.appendChild(td);
+        for (let j = 0; j < 7; j++) {
+            const td = document.createElement("td");
+            tr.appendChild(td);
+            td.textContent = i + j * 1440;
+        }
     }
 }
 
