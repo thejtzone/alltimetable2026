@@ -87,11 +87,18 @@ function createTimetable(data) {
         div.appendChild(header);
     }
 
+    (data || []).forEach(event => {
+        let eventDiv = document.createElement("div");
+        eventDiv.style.gridArea = `${event.start + 2} / ${event.day + 2} / ${event.end + 2} / ${event.day + 2}`;
+        eventDiv.style.backgroundColor = event.color || randCol();
+        eventDiv.style.border = "1px solid black";
+    })
 
     return true;
 }
 
 function pad(number, digits) {return String(number).padStart(digits, "0");}
+function randCol() {return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`; }
 
 document.addEventListener("DOMContentLoaded", async () => {
     let data = await fetch(`/api/getUser/${window.location.pathname.split("/").pop()}`).then(res => res.json() || []);
