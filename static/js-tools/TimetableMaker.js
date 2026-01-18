@@ -47,6 +47,7 @@ function createTimetable(data) {
     for (let i = 0; i < 7; i++) {
         let blank = document.createElement("div");
         blank.style.gridArea = `2 / ${i + 2} / ${24 * 60} / ${i + 2}`;
+        blank.style.borderLeft = "1px solid rgba(0, 0, 0, 0.05)";
         blanks.push(blank);
         div.appendChild(blank);
     }
