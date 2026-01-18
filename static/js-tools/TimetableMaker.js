@@ -88,7 +88,7 @@ function pad(number, digits) {return String(number).padStart(digits, "0");}
 document.addEventListener("DOMContentLoaded", async () => {
     let data = await $.ajax({
         type: "GET",
-        url: `/api/getUser/${window.location.hash.slice(1)}`,
+        url: `/api/getUser/${window.location.pathname.split("/").pop()}`,
         dataType: "json"
     })
     createTimetable(data);
