@@ -1,4 +1,5 @@
 import psycopg2
+import json
 
 DB_CONN = "postgresql://neondb_owner:npg_KI2qSMyNnc1X@ep-holy-cake-a7hqt7xv-pooler.ap-southeast-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
@@ -81,7 +82,7 @@ def add_event(identifier: str, event: dict) -> bool:
 
         conn = psycopg2.connect(DB_CONN)
         cur = conn.cursor()
-        cur.execute(f"UPDATE users SET timetable = '{str(timetable)}' WHERE identifier = '{identifier}'")
+        cur.execute(f"UPDATE users SET timetable = '{json.dumps(timetable)}' WHERE identifier = '{identifier}'")
         conn.commit()
         cur.close()
         conn.close()
