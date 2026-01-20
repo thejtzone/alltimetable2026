@@ -19,20 +19,35 @@ DB_CONN = os.getenv("DB_CONN")
 def get_user_timetable(identifier: str) -> list:
     conn = psycopg2.connect(DB_CONN)
     cur = conn.cursor()
-    cur.execute(f"SELECT timetable FROM users WHERE identifier = '{identifier}'")
-    results = cur.fetchone()
+
+    cur.execute(f"SELECT classlist FROM users WHERE identifier = '{identifier}'")
+    classlist = cur.fetchone()
+
+    cur.execute(f"SELECT * FROM events WHERE uniqueCode IN ({','.join([f'\'{x[0]}\'' for x in classlist])})")
+    columns = [desc[0] for desc in cur.description]
+    results = cur.fetchall()
+
     cur.close()
     conn.close()
-    return results[0]
+    return [dict(zip(columns, result)) for result in results]
 
 def get_all_timetables() -> dict[str, list]:
     conn = psycopg2.connect(DB_CONN)
     cur = conn.cursor()
-    cur.execute("SELECT identifier, timetable FROM users")
-    results = cur.fetchall()
+
+    cur.execute("SELECT identifier, classlist FROM users")
+    classlist = cur.fetchall()
+
+    timetables = {}
+    for identifier, cl in classlist:
+        cur.execute(f"SELECT * FROM events WHERE uniqueCode IN ({','.join([f'\'{x[0]}\'' for x in cl])})")
+        columns = [desc[0] for desc in cur.description]
+        results = cur.fetchall()
+        timetables[identifier] = [dict(zip(columns, result)) for result in results]
+
     cur.close()
     conn.close()
-    return {r[0]: r[1] for r in results}
+    return timetables
 
 
 
@@ -77,31 +92,41 @@ def new_timetable(timetable: list[str], day: int) -> list[dict]:
     } for x, u in enumerate(uniques)]
 
 def add_event(identifier: str, event: dict) -> bool:
-    try:
-        # Step 1: Fetch timetable
-        # Step 2: Add event
-        # Step 3: Update timetable
+    fields = [
+        "uniqueCode",   # (primary) Text
+        "name",         # Text (not null)
+        "desc",         # Text / null
+        "start",        # int (not null)
+        "end",          # int (not null)
+        "day",          # int (not null)
+        "weeks",        # jsonb (array) (not null)
+        "color",        # Text / null
+        "url",          # Text / null
+        "eventType"     # Enum (subject, curricular, optIn, general) (not null)
+    ]
 
-        timetable = get_user_timetable(identifier)
-        if not timetable: timetable = []
+    conn = psycopg2.connect(DB_CONN)
+    cur = conn.cursor()
 
-        if not event.get("uniqueCode"):
-            event["uniqueCode"] = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k=16))
+    uniqueCode = event.get('uniqueCode')
+    if not uniqueCode: 
+        uniqueCode = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+        event['uniqueCode'] = uniqueCode
 
-        for i, t in enumerate(timetable):
-            if not t.get("uniqueCode"):
-                timetable[i]["uniqueCode"] = event["uniqueCode"]
+    values = [event[field] for field in fields]
+    
+    cur.execute(f"INSERT INTO events ({','.join(fields)}) VALUES ({','.join(['%s' for _ in fields])})", values)
+    conn.commit()
 
-        timetable.append(event)
+    # Get current user classlist
+    cur.execute(f"SELECT classlist FROM users WHERE identifier = '{identifier}'")
+    classlist = cur.fetchone()
 
-        conn = psycopg2.connect(DB_CONN)
-        cur = conn.cursor()
-        cur.execute(f"UPDATE users SET timetable = '{json.dumps(timetable)}' WHERE identifier = '{identifier}'")
-        conn.commit()
-        cur.close()
-        conn.close()
+    # Update classlist
+    classlist[0].append(uniqueCode)
+    cur.execute(f"UPDATE users SET classlist = '{json.dumps(classlist[0])}' WHERE identifier = '{identifier}'")
+    conn.commit()
 
-        return True
-    except Exception as e:
-        print(e)
-        return False
+    cur.close()
+    conn.close()
+    return True
