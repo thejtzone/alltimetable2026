@@ -157,6 +157,7 @@ function createTimetable(data) {
         time.dataset.shown = "true";
         time.dataset.type = "time-display";
         time.style.textWrapMode = "nowrap";
+        time.style.textAlign = "right";
 
         div.appendChild(time);
 
