@@ -96,7 +96,7 @@ function createTimetable(data) {
     let divStyles = {
         display: "grid",
         gridTemplateColumns: `min-content 0.5fr repeat(5, 1fr) 0.5fr`,
-        gridTemplateRows: `min-content repeat(${24 * 60}, min-content)`,
+        gridTemplateRows: `min-content repeat(${24 * 60 + 1}, min-content)`,
         justifyItems: "center",
         alignItems: "center",
         gridColumnGap: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
@@ -134,7 +134,7 @@ function createTimetable(data) {
         }
 
         let time = document.createElement("div");
-        time.style.gridArea = `${i + 1} / 1 / ${i + 2} / 1`;
+        time.style.gridArea = `${i + 2} / 1 / ${i + 3} / 1`;
         times.push(time);
         
         time.textContent = neatTime(i);
@@ -142,7 +142,7 @@ function createTimetable(data) {
         div.appendChild(time);
 
         let hr = document.createElement("div");
-        hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
+        hr.style.gridArea = `${i + 3} / 1 / ${i + 3} / 9`;
         hr.style.width = "100%";
         hr.style.height = "100%";
         if (isDarkMode) hr.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)";
