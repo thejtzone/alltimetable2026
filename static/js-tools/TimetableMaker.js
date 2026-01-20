@@ -210,7 +210,7 @@ function createTimetable(data) {
             justifySelf: "left",
             border: "1px solid black",
             // opacity: 0.70
-            opacity: isDarkMode ? 0.85 : 0.70
+            opacity: isDarkMode ? 0.80 : 0.70
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
 
