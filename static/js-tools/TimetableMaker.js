@@ -294,8 +294,6 @@ function createTimetable(data) {
             Number(e.dataset.end) >= Number(start) && 
             idx > i);
 
-        eventDiv.dataset.eid = i;
-
         if (sameTimeEvents.length > 4) {
             let remaining = sameTimeEvents.length - 4;
             let remainingEvents = sameTimeEvents.slice(4);
@@ -312,7 +310,7 @@ function createTimetable(data) {
                 color: isDarkMode ? randLightCol() : randDarkCol(),
                 uniqueCode: undefined,
                 url: `/day/${day}`
-            },  i + 1);
+            },  arr.length + 1);
             
             arr.splice(i + 1, 0, dayMore);
             remainingEvents.forEach(e => {
