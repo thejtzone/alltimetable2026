@@ -154,12 +154,12 @@ function createTimetable(data) {
 
         let percWidth = Number(eventDiv.style.width.replace("%", ""));
         let newWidth = percWidth / (sameTimeEvents.length + 1);
-        eventDiv.style.width = `${newWidth}%`;
-        eventDiv.style.marginRight = `${percWidth - newWidth}%`;
+        eventDiv.style.width = `${newWidth - 1}%`;
+        eventDiv.style.marginRight = `${percWidth - newWidth + 1}%`;
 
         sameTimeEvents.forEach(e => {
-            e.style.width = `${percWidth - newWidth}%`;
-            e.style.marginLeft = `${newWidth}%`;
+            e.style.width = `${percWidth - newWidth - 1}%`;
+            e.style.marginLeft = `${newWidth + 1}%`;
         });        
 
         console.log(`Overlap events: ` + sameTimeEvents);
