@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+    <style>
+        iframe { width: 100dvw; height: 90dvh; margin: 0; padding: 0; border: 0; position: fixed; left: 0; top: 10dvh; }
+    </style>
+
+    <script src="/static/js-tools/modalManager.js"></script>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div id="modal"></div>
+    <iframe></iframe>
+
+{% endblock %}
+
+
+
+
+{% block extras %}
+
+<script>
+    function checkDarkMode() {
+        const isDarkMode = (x = getCookie("darkMode")) ? x === "true" : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDarkMode) document.querySelector("html").style.colorScheme = "dark";
+    }
+    checkDarkMode();
+
+    function openFilterAndSearchModal() {
+        const base = createElement("div", {styles: {
+            display: "grid",
+            width: window.innerWidth > 800 ? "80dvw" : "95dvw",
+            height: window.innerHeight > 800 ? "90dvh" : "100dvh",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            translate: "-50% -50%",
+            zIndex: 101,
+            borderRadius: "1dvh",
+            backgroundColor: "rgb(30, 30, 30)",
+            gridTemplateColumns: "1fr",
+            gridTemplateRows: "min-content 1fr min-content"
+        }});
+
+        const topText = createElement("p", {assign: base, styles: {
+            margin: 0, padding: 0,
+            textAlign: "center",
+        }, tc: "Enter search terms and filters here!"});
+
+        const blank = createElement("div", {assign: base});
+
+        const buttonHolder = createElement("div", {assign: base, styles: {
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "1fr"
+        }});
+
+        const addFilterButton = createElement("button", {assign: buttonHolder, classname: "addFilterButton"});
+        const confirmButton = createElement("button", {assign: buttonHolder, classname: "confirmButton"});
+
+        addFilterButton.addEventListener("click", () => addFilter(blank));
+        confirmButton.addEventListener("click", () => confirmFilters(blank));
+
+        openModal(base);
+    }
+
+    function addFilter(filtersSectionElement) {
+
+    }
+
+    function confirmFilters(filtersSectionElement) {
+
+    }
+
+    document.addEventListener("DOMContentLoaded", openFilterAndSearchModal);
+
+</script>
+
+{% endblock %}

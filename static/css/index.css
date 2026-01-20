@@ -1,0 +1,18 @@
+#addFilterButton { background-color: darkturquoise; }
+#confirmButton { background-color: aquamarine; }
+
+#addFilterButton, #confirmButton {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#addFilterButton:hover, #confirmButton:hover {
+    opacity: 0.9;
+    transition-duration: 0.3s;
+}

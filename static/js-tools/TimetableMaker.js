@@ -425,24 +425,6 @@ function neatTime(time) {
     return `${pad(hour, 2)}:${pad(time % 60, 2)} ${Math.floor(time / 60) < 12 ? "AM" : "PM"}`;
 }
 
-function createElement(element, options = {}) {
-    const el = document.createElement(element);
-
-    if (options.textContent || options.tc) el.textContent = options.textContent || options.tc;
-    if (options.innerHTML) el.innerHTML = options.innerHTML;
-    if (options.classname) el.classList.add(options.classname);
-    if (options.classes?.length > 0) {
-        const validClasses = options.classes.filter(cls => typeof cls === 'string' && cls.trim());
-        el.classList.add(...validClasses);  // Safe against elements [web:25]
-    }
-    if (options.id) el.id = options.id;
-    if (options.name) el.name = options.name;
-    if (options.styles) Object.assign(el.style, options.styles);
-    if (options.append) options.append.appendChild(el);
-
-    return el;
-}
-
 document.addEventListener("DOMContentLoaded", async () => {
     let data = await fetch(`/api/getUser/${window.location.pathname.split("/").pop()}`).then(res => res.json() || []);
     if (!createTimetable(data)) 
