@@ -199,50 +199,23 @@ function createTimetable(data) {
     }
 
     function simulateText(text, styling = {}, fitWidth) {
-        const simulationDiv = document.createElement("div");
-        Object.entries(styling).forEach(([key, value]) => {
-            simulationDiv.style[key] = value;
-        });
-
-        // Ensure it's not affecting layout
-        simulationDiv.style.position = "absolute";
-        simulationDiv.style.visibility = "hidden";
-        simulationDiv.style.whiteSpace = "nowrap";
-
+        let simulationDiv = document.createElement("div");
+        simulationDiv.textContent = text;
+        Object.entries(styling).forEach(([key, value]) => simulationDiv.style[key] = value);
         document.body.appendChild(simulationDiv);
 
-        const ellipsis = "...";
-        let original = text;
-
-        simulationDiv.textContent = original;
-        if (simulationDiv.getBoundingClientRect().width <= fitWidth) {
-            document.body.removeChild(simulationDiv);
-            return original;
+        let originalText = text;
+        let width = simulationDiv.offsetWidth;
+        let removedCharacters = 0;
+        while (width > fitWidth && text.length > 3) {
+            text = originalText.slice(0, -1 - removedCharacters) + "...";
+            simulationDiv.textContent = text;
+            width = simulationDiv.offsetWidth;
+            removedCharacters++;
         }
-
-        let low = 0;
-        let high = original.length;
-        let best = ellipsis;
-
-        while (low <= high) {
-            const mid = Math.floor((low + high) / 2);
-            const candidate = original.slice(0, mid) + ellipsis;
-
-            simulationDiv.textContent = candidate;
-            const width = simulationDiv.getBoundingClientRect().width;
-
-            if (width <= fitWidth) {
-                best = candidate;
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-        }
-
         document.body.removeChild(simulationDiv);
-        return best;
-    }
-
+        return text;
+    } 
 
     function newEvent(event, idx) {
         let eventDiv = document.createElement("div");
