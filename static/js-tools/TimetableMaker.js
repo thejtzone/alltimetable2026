@@ -124,12 +124,30 @@ function createTimetable(data) {
             borderRadius: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
-        eventDiv.dataset.name = event.name;
-        eventDiv.dataset.eid = idx;
+
+        let datasets = {
+            name: event.name,
+            eid: idx,
+            start: event.start,
+            end: event.end,
+            day: event.day,
+            duration: event.end - event.start,
+        }
+        Object.entries(datasets).forEach(([key, value]) => eventDiv.dataset[key] = value);
 
         eventDiv.addEventListener("mousemove", e => moveTooltip(event, idx));
 
         div.appendChild(eventDiv);
+    })
+
+    (data || []).forEach((event, idx) => {
+        let eventDiv = document.querySelector(`div#${DIV_ID} div[data-eid="${idx}"]`);
+        if (!eventDiv) return;
+
+        let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${event.day}"]`))
+            .filter(e => e.dataset.start <= event.end && e.dataset.end >= event.start && e.dataset.eid != event.eid);
+
+        console.log(`Overlap events: ` + sameTimeEvents);
     })
 
     div.addEventListener("mousemove", (e) => {
@@ -171,7 +189,7 @@ function moveTooltip(event, eID) {
     tooltip.innerHTML = "";
 
     createElement("h2", {tc: event.name, append: tooltip});
-    createElement("p", {tc: event.description, append: tooltip});
+    createElement("p", {tc: event.desc, append: tooltip});
     createElement("p", {tc: `${neatTime(event.start)} - ${neatTime(event.end)}`, append: tooltip});
 
     let width = tooltip.getBoundingClientRect().width;

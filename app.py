@@ -23,7 +23,7 @@ def get_user(user): return jsonify(dbdata.get_user_timetable(user))
 def add_event(user): return render_template("addEvent.html", user=user)
 
 @app.route('/admin/addEvent/<user>', methods=['POST'])
-def add_event_post(user): return dbdata.add_event(user, request.get_json() or {})
+def add_event_post(user): return jsonify({"success": dbdata.add_event(user, request.get_json() or {}) })
 
 
 if __name__ == "__main__":
