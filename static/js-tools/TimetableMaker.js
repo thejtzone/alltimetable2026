@@ -189,6 +189,7 @@ function createTimetable(data) {
         
         if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
         eventDiv.textContent = event.name;
+        eventDiv.style.textIndent = "2ch";
     })
 
     Array.from(div.querySelectorAll(`div[data-eid]`)).forEach((eventDiv, idx) => {
@@ -213,7 +214,11 @@ function createTimetable(data) {
             e.style.marginLeft = `${newWidth + 1}%`;
         });        
 
-        console.log(`Overlap events: ` + sameTimeEvents);
+        let realWidth = eventDiv.offsetWidth;
+        let realHeight = eventDiv.offsetHeight;
+        
+        if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
+        else eventDiv.style.writingMode = "";
     })
 
     div.addEventListener("mousemove", (e) => {
