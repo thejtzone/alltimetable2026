@@ -23,8 +23,8 @@
 
     function handleMessage(event) {
         console.log(event);
-        switch (event.type) {
-            case 'href': href(event.href);
+        switch (event.data.type) {
+            case 'href': href(event.data.href);
         }
     }
 
