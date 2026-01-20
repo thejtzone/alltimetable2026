@@ -319,11 +319,11 @@ function createTimetable(data) {
                 if (remIDX > i) arr.splice(remIDX, 1);
             });
 
-            sameTimeEvents = arr.filter(e =>
+            sameTimeEvents = arr.filter((e, idx) =>
                 e.dataset.day === day &&
                 Number(e.dataset.start) <= Number(end) && 
                 Number(e.dataset.end) >= Number(start) && 
-                Number(e.dataset.eid) > Number(eid));
+                idx > i);
         }
 
         let percWidth = Number(eventDiv.style.width.replace("%", ""));
