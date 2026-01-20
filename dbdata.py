@@ -82,6 +82,11 @@ def add_event(identifier: str, event: dict) -> bool:
         uniqueCode = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
         event['uniqueCode'] = uniqueCode
 
+    eventType = event.get('eventType')
+    if not eventType: 
+        eventType = 'general'
+        event['eventType'] = eventType
+
     values = [event.get(field) for field in fields]
     
     cur.execute("INSERT INTO events (\"{}\") VALUES ({})".format(
