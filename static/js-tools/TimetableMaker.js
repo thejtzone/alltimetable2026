@@ -261,7 +261,7 @@ function moveTooltip(event, eID) {
 function pad(number, digits) {return String(number).padStart(digits, "0");}
 function randCol() {return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`; }
 function randLightCol() {return `rgb(${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)})`; }
-function randDarkCol() {return `rgb(${Math.floor(Math.random() * 64 + 64)}, ${Math.floor(Math.random() * 64 + 64)}, ${Math.floor(Math.random() * 64 + 64)})`; }
+function randDarkCol() {return `rgb(${Math.floor(Math.random() * 64 + 127)}, ${Math.floor(Math.random() * 64 + 127)}, ${Math.floor(Math.random() * 64 + 127)})`; }
 function neatTime(time) {return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`}
 
 function createElement(element, options = {}) {
