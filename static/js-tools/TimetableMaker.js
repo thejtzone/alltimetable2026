@@ -263,6 +263,7 @@ function createTimetable(data) {
                 uniqueCode: undefined,
                 url: `/day/${day}`
             },  arr.length + 1);
+            dayMore.style.whiteSpace = "pre-line";
             
             // arr.splice(i + 1, 0, dayMore);
             arr.push(dayMore);
