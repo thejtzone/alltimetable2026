@@ -63,21 +63,21 @@
             gridTemplateRows: "min-content 1fr min-content"
         }});
 
-        const topText = createElement("p", {assign: base, styles: {
+        const topText = createElement("p", {append: base, styles: {
             margin: 0, padding: 0,
             textAlign: "center",
         }, tc: "Enter search terms and filters here!"});
 
-        const blank = createElement("div", {assign: base});
+        const blank = createElement("div", {append: base});
 
-        const buttonHolder = createElement("div", {assign: base, styles: {
+        const buttonHolder = createElement("div", {append: base, styles: {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gridTemplateRows: "1fr"
         }});
 
-        const addFilterButton = createElement("button", {assign: buttonHolder, classname: "addFilterButton"});
-        const confirmButton = createElement("button", {assign: buttonHolder, classname: "confirmButton"});
+        const addFilterButton = createElement("button", {append: buttonHolder, classname: "addFilterButton"});
+        const confirmButton = createElement("button", {append: buttonHolder, classname: "confirmButton"});
 
         addFilterButton.addEventListener("click", () => addFilter(blank));
         confirmButton.addEventListener("click", () => confirmFilters(blank));
