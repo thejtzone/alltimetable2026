@@ -194,12 +194,13 @@ function createTimetable(data) {
         eventDiv.addEventListener("mousemove", e => moveTooltip(event, idx));
         eventDiv.addEventListener("click", e => {
             let code = event.uniqueCode;
-            if (!code) {
+            let url = event.url;
+            if (!code && !url) {
                 alert("This event does not have a unique code, and thus cannot be opened.");
                 return;
             }
-
-            window.location.href = `/event/${code}`;
+        
+            window.location.href = code ? `/event/${code}` : url;
         })
 
         div.appendChild(eventDiv);
@@ -226,58 +227,6 @@ function createTimetable(data) {
 
     (data || []).forEach((event, idx) => newEvent(event, idx));
 
-    // Array.from(div.querySelectorAll(`div[data-eid]`)).forEach((eventDiv, idx, arr) => {
-    //     if (!eventDiv) return;
-
-    //     let day = eventDiv.dataset.day;
-    //     let start = eventDiv.dataset.start;
-    //     let end = eventDiv.dataset.end;
-    //     let eid = eventDiv.dataset.eid;
-    //     let duration = eventDiv.dataset.duration;
-
-    //     let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
-    //         .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
-
-    //     if (sameTimeEvents.length > 4) {
-    //         let remaining = sameTimeEvents.length - 4;
-    //         let remainingEvents = sameTimeEvents.slice(4);
-    //         sameTimeEvents.forEach((e, i) => i >= 4 && e.remove());
-
-    //         let earliest = Math.min(...remainingEvents.map(e => Number(e.dataset.start)));
-    //         let latest = Math.max(...remainingEvents.map(e => Number(e.dataset.end)));
-            
-    //         dayMore = newEvent({
-    //             name: `+${remaining} more`,
-    //             start: earliest,
-    //             end: latest,
-    //             day: Number(day),
-    //             color: isDarkMode ? randLightCol() : randDarkCol(),
-    //             uniqueCode: undefined,
-    //             url: `/day/${day}`
-    //         }, -Number(day));
-    //         arr.splice(idx + 1, 0, dayMore);
-
-    //         sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
-    //             .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
-    //     }
-
-    //     let percWidth = Number(eventDiv.style.width.replace("%", ""));
-    //     let newWidth = percWidth / (sameTimeEvents.length);
-    //     eventDiv.style.width = `${newWidth - 1}%`;
-    //     eventDiv.style.marginRight = `${percWidth - newWidth - 1}%`;
-
-    //     sameTimeEvents.forEach(e => {
-    //         e.style.width = `${percWidth - newWidth - 1}%`;
-    //         e.style.marginLeft = `${newWidth + 1}%`;
-    //     });        
-
-    //     let realWidth = eventDiv.offsetWidth;
-    //     let realHeight = eventDiv.offsetHeight;
-        
-    //     if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
-    //     else eventDiv.style.writingMode = "";
-    // })
-
     let arr = Array.from(div.querySelectorAll(`div[data-eid]`));
     for (let i = 0; i < arr.length; i++) {
         let eventDiv = arr[i];
@@ -294,10 +243,11 @@ function createTimetable(data) {
             Number(e.dataset.end) >= Number(start) && 
             idx > i);
 
-        if (sameTimeEvents.length > 4) {
-            let remaining = sameTimeEvents.length - 4;
-            let remainingEvents = sameTimeEvents.slice(4);
-            sameTimeEvents.forEach((e, i) => i >= 4 && e.remove());
+        const ALLOWED_MAX_REMAINS = 2;
+        if (sameTimeEvents.length > ALLOWED_MAX_REMAINS) {
+            let remaining = sameTimeEvents.length - ALLOWED_MAX_REMAINS;
+            let remainingEvents = sameTimeEvents.slice(ALLOWED_MAX_REMAINS);
+            sameTimeEvents.forEach((e, i) => i >= ALLOWED_MAX_REMAINS && e.remove());
 
             let earliest = Math.min(...remainingEvents.map(e => Number(e.dataset.start)));
             let latest = Math.max(...remainingEvents.map(e => Number(e.dataset.end)));
