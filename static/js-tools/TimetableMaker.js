@@ -150,14 +150,18 @@ function createTimetable(data) {
         }
 
         let time = document.createElement("div");
-        time.style.gridArea = `${i + 2} / 1 / ${i + 2} / 1`;
+        let timeStyles = {
+            gridArea: `${i + 2} / 1 / ${i + 2} / 1`,
+            textWrapMode: "nowrap",
+            textAlign: "right",
+            justifySelf: "right"
+        }
+        Object.entries(timeStyles).forEach(([key, value]) => time.style[key] = value);
         times.push(time);
         
         time.textContent = neatTime(i);
         time.dataset.shown = "true";
         time.dataset.type = "time-display";
-        time.style.textWrapMode = "nowrap";
-        time.style.textAlign = "right";
 
         div.appendChild(time);
 
