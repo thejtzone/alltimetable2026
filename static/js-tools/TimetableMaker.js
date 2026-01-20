@@ -212,6 +212,7 @@ function createTimetable(data) {
 
         document.body.appendChild(simulationDiv);
 
+        // Early exit if it already fits
         let width = simulationDiv.offsetWidth;
         if (width <= fitWidth) {
             document.body.removeChild(simulationDiv);
@@ -231,12 +232,13 @@ function createTimetable(data) {
                 return candidate;
             }
 
-            end--; // remove exactly 1 visible char each pass
+            end--;
         }
 
         document.body.removeChild(simulationDiv);
         return "...";
     }
+
 
 
     function newEvent(event, idx) {
