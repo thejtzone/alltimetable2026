@@ -212,7 +212,13 @@ function createTimetable(data) {
             justifySelf: "left",
             border: "1px solid black",
             // opacity: 0.70
-            opacity: isDarkMode ? 0.80 : 0.70
+            opacity: isDarkMode ? 0.80 : 0.70,
+            textIndent: "1ch",
+            fontSize: "1dvw",
+            fontWeight: "bold",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap"
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
 
@@ -249,18 +255,6 @@ function createTimetable(data) {
         let realHeight = eventDiv.offsetHeight;
         
         if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
-        eventDiv.textContent = event.name;
-        eventDiv.style.textIndent = "2ch";
-        eventDiv.style.fontSize = "1dvw";
-        eventDiv.style.fontWeight = "bold";
-
-        // Ensure text fits
-        if (eventDiv.offsetWidth > realWidth) {
-            eventDiv.style.textIndent = "0";
-            eventDiv.style.overflow = "hidden";
-            eventDiv.style.textOverflow = "ellipsis";
-            eventDiv.style.whiteSpace = "nowrap";
-        }
 
         return eventDiv;
     }
