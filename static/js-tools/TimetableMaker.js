@@ -1,7 +1,7 @@
 const DIV_ID = "timetable";
 const ASPECT_RATIO = 3 / 5;
 
-const isDarkMode = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) || getCookie("darkMode") === "true";
+const isDarkMode = (x = getCookie("darkMode")) ? x === "true" : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 if (isDarkMode) document.querySelector("html").style.colorScheme = "dark";
 
 function getCookie(name) {
@@ -18,6 +18,21 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+/**
+ * Sets a cookie with the given name, value, and expiration time.
+ *
+ * @param {string} name - The name of the cookie.
+ * @param {string} value - The value of the cookie.
+ * @param {number} time - The expiration time of the cookie in seconds (negative for no expiration).
+ */
+function setCookie(name, value, time) {
+    const d = new Date();
+    d.setTime(d.getTime() + (time * 1000));
+    const expires = `expires=${d.toUTCString()}`;
+    time > 0 ? document.cookie = `${name}=${value};${expires};path=/`
+        : document.cookie = `${name}=${value};path=/`;
 }
 
 function isStringified(data) {
