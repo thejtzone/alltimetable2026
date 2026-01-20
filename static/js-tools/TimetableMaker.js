@@ -199,57 +199,34 @@ function createTimetable(data) {
     }
 
     function simulateText(text, styling = {}, fitWidth) {
-        console.log(`Simulating to fit "${text}" into ${fitWidth}...`);
-
-        const simulationDiv = document.createElement("div");
+        let simulationDiv = document.createElement("div");
         simulationDiv.textContent = text;
+        Object.entries(styling).forEach(([key, value]) => simulationDiv.style[key] = value);
+        document.body.appendChild(simulationDiv);
 
-        Object.entries(styling).forEach(([key, value]) => {
-            simulationDiv.style[key] = value;
-        });
-
-        let simStyles = {
+        Object.entries({
             position: "absolute",
             visibility: "hidden",
             whiteSpace: "nowrap",
             width: "min-content",
             minWidth: "min-content",
             maxWidth: "min-content"
-        }
-        Object.entries(simStyles).forEach(([key, value]) => simulationDiv.style[key] = value);
+        }).forEach(([key, value]) => simulationDiv.style[key] = value);
 
-        document.body.appendChild(simulationDiv);
-
-        // Early exit if it already fits
         let width = simulationDiv.offsetWidth;
-        if (width <= fitWidth) {
-            document.body.removeChild(simulationDiv);
-            return text;
-        }
+        if (width <= fitWidth) return text;
 
-        const originalText = text;
-        let end = originalText.length;
-
-        while (end > 0) {
-            const candidate = originalText.slice(0, end) + "...";
-            console.log(`Trying to fit "${candidate}" (from "${originalText}") into ${fitWidth}... (${end}/${originalText.length} characters)`);
-            simulationDiv.textContent = candidate;
+        let originalText = text;
+        let removedCharacters = 0;
+        while (width > fitWidth && text.length > 3) {
+            text = originalText.slice(0, -1 - removedCharacters) + "...";
+            simulationDiv.textContent = text;
             width = simulationDiv.offsetWidth;
-            console.log(`${width} / ${fitWidth}`);
-
-            if (width <= fitWidth) {
-                document.body.removeChild(simulationDiv);
-                return candidate;
-            }
-
-            end--;
+            removedCharacters++;
         }
-
         document.body.removeChild(simulationDiv);
-        return "...";
-    }
-
-
+        return text;
+    } 
 
     function newEvent(event, idx) {
         let eventDiv = document.createElement("div");
