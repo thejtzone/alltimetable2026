@@ -151,6 +151,7 @@ function createTimetable(data) {
         hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
         hr.style.width = "100%";
         hr.style.height = "100%";
+        hr.style.paddingBottom = "0.01ch";
         hr.dataset.shown = "true";
         if (isDarkMode) hr.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)";
         else hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
@@ -158,9 +159,9 @@ function createTimetable(data) {
     }
     Array.from(div.querySelectorAll("div[data-shown]")).at(-1).style.borderBottom = "";
     times.forEach((t, i) => {
-        if (i <= earliest || i >= latest) return;
+        if (i <= earliest - 10 || i >= latest + 10) return;
 
-        t.style.minHeight = "0.05ch";
+        t.style.minHeight = "0.035ch";
     })
 
     const headers = [];
