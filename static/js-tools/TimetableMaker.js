@@ -4,11 +4,12 @@ const ASPECT_RATIO = 3 / 5;
 const isDarkMode = (x = getCookie("darkMode")) ? x === "true" : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 if (isDarkMode) document.querySelector("html").style.colorScheme = "dark";
 
-function checkTimeFormat() {
-  const time = new Date(2026, 0, 20, 13, 0).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
-  return time.includes('PM') || time.includes('AM') || time.includes('pm') || time.includes('am');
+function is24HourClock() {
+  const dtf = new Intl.DateTimeFormat(undefined, { hour: 'numeric' });
+  const parts = dtf.formatToParts(new Date());
+  return !parts.some(p => p.type === 'dayPeriod');
 }
-const is24HourMode = (x = getCookie("24hr")) ? x === "true" : !checkTimeFormat();
+const is24HourMode = (x = getCookie("24hr")) ? x === "true" : is24HourClock();
 
 function getCookie(name) {
     let cookieValue = null;
@@ -155,7 +156,7 @@ function createTimetable(data) {
         time.textContent = neatTime(i);
         time.dataset.shown = "true";
         time.dataset.type = "time-display";
-        time.style.textWrapMode = "no-wrap";
+        time.style.textWrapMode = "nowrap";
 
         div.appendChild(time);
 
