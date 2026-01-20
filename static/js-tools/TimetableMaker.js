@@ -121,10 +121,21 @@ function createTimetable(data) {
     const times = [];
     function blankTime(i) {
         let time = document.createElement("div");
-        time.style.gridArea = `${i + 2} / 1 / ${i + 3} / 1`;
+        time.style.gridArea = `${i + 2} / 1 / ${i + 2} / 1`;
         time.dataset.type = "time-blank";
         times.push(time);
         div.appendChild(time);
+
+        let hr = document.createElement("div");
+        hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
+        hr.style.width = "100%";
+        hr.style.height = "100%";
+        hr.style.paddingBottom = "0.01ch";
+        hr.dataset.shown = "true";
+        hr.dataset.type = "time-blank-hr";
+        if (isDarkMode) hr.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)";
+        else hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
+        div.appendChild(hr);
     }
 
     for (let i = 0; i < 24 * 60; i++) {
