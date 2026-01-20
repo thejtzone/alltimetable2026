@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "CodecPro";
+    src: url("/static/fonts/CodecPro-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "CodecPro";
+    src: url("/static/fonts/CodecPro-Bold.ttf") format("truetype");
+    font-style: italic;
+}
+
+* { font-family: "CodecPro"; }
