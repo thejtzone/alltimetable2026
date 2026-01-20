@@ -145,7 +145,7 @@ function createTimetable(data) {
 
         // Filter out times after 7pm unless there is an event later than 7pm
         if (i > 19 * 60) {
-            if (latest == "none" || i > latest) 
+            if (latest == "none" || i > latest + 30) 
                 { blankTime(i); continue; }
         }
 
@@ -177,7 +177,7 @@ function createTimetable(data) {
         div.appendChild(hr);
     }
     Array.from(div.querySelectorAll("div[data-shown]")).at(-1).style.borderBottom = "";
-    times.filter((t, i) => i >= earliest - 60 && i <= latest)
+    times.filter((t, i) => i >= earliest - 60 && i <= latest + 60)
         .forEach(t => t.style.minHeight = "0.035ch");
 
     const headers = [];
