@@ -10,6 +10,15 @@
 <input type="text" placeholder="Event description">
 <label for="day">Day of week</label>
 <input type="number" min="0" max="6" id="day">
+<br>
+
+{% for i in range(52) %}
+
+    <input type="checkbox" id="day{{i}}">
+    <label for="day{{i}}">Day {{i}}</label>
+    <br>
+
+{% endfor %}
 
 <button type="submit">Submit</button>
 
@@ -26,7 +35,8 @@
                 desc: document.querySelectorAll('input[type="text"]')[1].value,
                 start: document.querySelectorAll('input[type="time"]')[0].valueAsNumber / (60 * 1000),
                 end: document.querySelectorAll('input[type="time"]')[1].valueAsNumber / (60 * 1000),
-                day: document.querySelector('input[type="number"]').valueAsNumber
+                day: document.querySelector('input[type="number"]').valueAsNumber,
+                weeks: Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(x => x.checked).map(x => x.id.split('day')[1]),
             }
 
             console.log(event)
