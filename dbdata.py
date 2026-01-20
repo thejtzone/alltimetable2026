@@ -44,13 +44,14 @@ def get_all_timetables() -> dict[str, list]:
     cur.execute("SELECT identifier, classlist FROM users")
     classlist = cur.fetchall()
 
-    if not classlist or not classlist[0]:
+    if len(classlist) <= 0:
         cur.close()
         conn.close()
         return {}
 
     timetables = {}
     for identifier, cl in classlist:
+        print(identifier, cl)
         cur.execute("SELECT * FROM events WHERE \"uniqueCode\" IN ({})".format(','.join([f'\'{x}\'' for x in cl[0]])))
         columns = [desc[0] for desc in cur.description]
         results = cur.fetchall()
