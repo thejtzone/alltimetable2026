@@ -150,23 +150,17 @@ function createTimetable(data) {
         let duration = eventDiv.dataset.duration;
 
         let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
-            .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && e.dataset.eid != eid);
+            .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
+
+        let percWidth = Number(eventDiv.style.width.replace("%", ""));
+        let newWidth = percWidth / (sameTimeEvents.length + 1);
+        eventDiv.style.width = `${newWidth}%`;
+        eventDiv.style.marginRight = `${percWidth - newWidth}%`;
 
         sameTimeEvents.forEach(e => {
-            let otherDuration = e.dataset.duration;
-            if (Number(otherDuration) < Number(duration)) {
-                if (String(e.style.width).endsWith("%")) {
-                    let perc = Number(e.style.width.replace("%", ""));
-                    perc -= 10;
-                    e.style.width = `${perc}%`;
-                } else e.style.width = `${Number(e.style.width) - 5}px`;
-            } else if (Number(otherDuration) == Number(duration)) {
-                let otherWidth = e.style.width;
-                let thisWidth = eventDiv.style.width;
-
-                // TODO: add logic
-            }
-        })
+            e.style.width = `${percWidth - newWidth}%`;
+            e.style.marginLeft = `${newWidth}%`;
+        });        
 
         console.log(`Overlap events: ` + sameTimeEvents);
     })
