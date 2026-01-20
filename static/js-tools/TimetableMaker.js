@@ -183,6 +183,12 @@ function createTimetable(data) {
         })
 
         div.appendChild(eventDiv);
+
+        let realWidth = eventDiv.offsetWidth;
+        let realHeight = eventDiv.offsetHeight;
+        
+        if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
+        eventDiv.textContent = event.name;
     })
 
     Array.from(div.querySelectorAll(`div[data-eid]`)).forEach((eventDiv, idx) => {
