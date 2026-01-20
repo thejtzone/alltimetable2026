@@ -177,7 +177,9 @@ function createTimetable(data) {
         div.appendChild(hr);
     }
     // Array.from(div.querySelectorAll("div[data-shown]")).at(-1).style.borderBottom = "";
-    times.filter((t, i) => i >= earliest - 60 && i <= latest + 60)
+    let numEarliest = earliest != "none" ? earliest : 12 * 60;
+    let numLatest = latest != "none" ? latest : 12 * 60;
+    times.filter((t, i) => i >= Math.min(numEarliest, 8 * 60) - 60 && i <= Math.max(numLatest, 19 * 60) + 60)
         .forEach(t => t.style.minHeight = "0.035ch");
 
     const headers = [];
