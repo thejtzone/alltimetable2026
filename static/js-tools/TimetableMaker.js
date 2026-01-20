@@ -191,6 +191,7 @@ function createTimetable(data) {
         eventDiv.textContent = event.name;
         eventDiv.style.textIndent = "2ch";
         eventDiv.style.fontSize = "1.4rem";
+        eventDiv.style.fontWeight = "bold";
 
         // Ensure text fits
         if (eventDiv.offsetWidth > realWidth) {
