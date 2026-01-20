@@ -286,8 +286,11 @@ function createTimetable(data) {
         let eid = eventDiv.dataset.eid;
         let duration = eventDiv.dataset.duration;
 
-        let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
-            .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
+        let sameTimeEvents = arr.filter(e =>
+            e.dataset.day === day &&
+            Number(e.dataset.start) <= Number(end) && 
+            Number(e.dataset.end) >= Number(start) && 
+            Number(e.dataset.eid) > Number(eid));
 
         if (sameTimeEvents.length > 4) {
             let remaining = sameTimeEvents.length - 4;
@@ -313,8 +316,11 @@ function createTimetable(data) {
                 if (remIDX > i) arr.splice(remIDX, 1);
             });
 
-            sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
-                .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
+            sameTimeEvents = arr.filter(e =>
+                e.dataset.day === day &&
+                Number(e.dataset.start) <= Number(end) && 
+                Number(e.dataset.end) >= Number(start) && 
+                Number(e.dataset.eid) > Number(eid));
         }
 
         let percWidth = Number(eventDiv.style.width.replace("%", ""));
