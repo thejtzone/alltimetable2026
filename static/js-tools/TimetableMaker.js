@@ -245,20 +245,20 @@ function createTimetable(data) {
                 name: `+${remaining} more`,
                 start: earliest,
                 end: latest,
-                day: day,
+                day: Number(day),
                 color: isDarkMode ? randLightCol() : randDarkCol(),
                 uniqueCode: undefined,
                 url: `/day/${day}`
-            }, -day);
+            }, -Number(day));
 
             sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
                 .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
         }
 
         let percWidth = Number(eventDiv.style.width.replace("%", ""));
-        let newWidth = percWidth / (sameTimeEvents.length + 1);
+        let newWidth = percWidth / (sameTimeEvents.length);
         eventDiv.style.width = `${newWidth - 1}%`;
-        eventDiv.style.marginRight = `${percWidth - newWidth + 1}%`;
+        eventDiv.style.marginRight = `${percWidth - newWidth - 1}%`;
 
         sameTimeEvents.forEach(e => {
             e.style.width = `${percWidth - newWidth - 1}%`;
