@@ -286,11 +286,11 @@ function createTimetable(data) {
         let eid = eventDiv.dataset.eid;
         let duration = eventDiv.dataset.duration;
 
-        let sameTimeEvents = arr.filter(e =>
+        let sameTimeEvents = arr.filter((e, idx) =>
             e.dataset.day === day &&
             Number(e.dataset.start) <= Number(end) && 
             Number(e.dataset.end) >= Number(start) && 
-            Number(e.dataset.eid) > Number(eid));
+            idx > i);
 
         // if (sameTimeEvents.length > 4) {
         //     let remaining = sameTimeEvents.length - 4;
