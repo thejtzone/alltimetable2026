@@ -199,7 +199,7 @@ function createTimetable(data) {
     }
 
     function simulateText(text, styling = {}, fitWidth) {
-        console.log(`Simulating to fit ${text} into ${fitWidth}...`);
+        console.log(`Simulating to fit "${text}" into ${fitWidth}...`);
 
         const simulationDiv = document.createElement("div");
         simulationDiv.textContent = text;
@@ -226,9 +226,10 @@ function createTimetable(data) {
 
         while (end > 0) {
             const candidate = originalText.slice(0, end) + "...";
-            console.log(`Trying to fit ${candidate} (from ${originalText}) into ${fitWidth}... (${end}/${originalText.length} characters)`);
+            console.log(`Trying to fit "${candidate}" (from "${originalText}") into ${fitWidth}... (${end}/${originalText.length} characters)`);
             simulationDiv.textContent = candidate;
             width = simulationDiv.offsetWidth;
+            console.log(`${width} / ${fitWidth}`);
 
             if (width <= fitWidth) {
                 document.body.removeChild(simulationDiv);
