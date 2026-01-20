@@ -85,12 +85,12 @@ function createTimetable(data) {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     if (heightWidthRatio < ASPECT_RATIO) {
-        div.style.height = `${(width * ASPECT_RATIO) / screenWidth * 100}dvw`;
+        div.style.maxHeight = `${(width * ASPECT_RATIO) / screenWidth * 100}dvw`;
         div.style.width = `${width / screenWidth * 100}dvw`;
     }
     else {
         div.style.width = `${(height / ASPECT_RATIO) / screenHeight * 100}dvh`;
-        div.style.height = `${height / screenHeight * 100}dvh`;
+        div.style.maxHeight = `${height / screenHeight * 100}dvh`;
     }
 
     let divStyles = {
