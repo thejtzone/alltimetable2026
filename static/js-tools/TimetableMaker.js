@@ -132,7 +132,7 @@ function createTimetable(data) {
 
         // Filter out times before 8am unless there is an event earlier than 8am
         if (i < 8 * 60) {
-            if (earliest == "none" || i < earliest) 
+            if (earliest == "none" || i < earliest - 30) 
                 { blankTime(i); continue; }
         }
 
