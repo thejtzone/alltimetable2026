@@ -4,6 +4,8 @@ const ASPECT_RATIO = 3 / 5;
 const isDarkMode = (x = getCookie("darkMode")) ? x === "true" : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 if (isDarkMode) document.querySelector("html").style.colorScheme = "dark";
 
+const is24HourMode = (x = getCookie("24hr")) ? x === "true" : !(new Intl.DateTimeFormat(undefined, { hour: 'numeric' }).resolvedOptions().hour12);
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -372,7 +374,14 @@ function pad(number, digits) {return String(number).padStart(digits, "0");}
 function randCol() {return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`; }
 function randLightCol() {return `rgb(${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)})`; }
 function randDarkCol() {return `rgb(${Math.floor(Math.random() * 64 + 127)}, ${Math.floor(Math.random() * 64 + 127)}, ${Math.floor(Math.random() * 64 + 127)})`; }
-function neatTime(time) {return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`}
+
+function neatTime(time) {
+    if (is24HourMode) return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`;
+
+    let hour = Math.floor(time / 60) % 12;
+    if (hour === 0) hour = 12;
+    return `${pad(hour, 2)}:${pad(time % 60, 2)} ${Math.floor(time / 60) < 12 ? "AM" : "PM"}`;
+}
 
 function createElement(element, options = {}) {
     const el = document.createElement(element);
