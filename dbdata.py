@@ -22,7 +22,7 @@ def get_user_timetable(identifier: str) -> list:
 
     cur.execute(f"SELECT classlist FROM users WHERE identifier = '{identifier}'")
     classlist = cur.fetchone()
-    if not classlist:
+    if not classlist or not classlist[0]:
         cur.close()
         conn.close()
         return []
@@ -42,7 +42,7 @@ def get_all_timetables() -> dict[str, list]:
     cur.execute("SELECT identifier, classlist FROM users")
     classlist = cur.fetchall()
 
-    if not classlist:
+    if not classlist or not classlist[0]:
         cur.close()
         conn.close()
         return {}
