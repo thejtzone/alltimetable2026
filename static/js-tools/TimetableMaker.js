@@ -159,7 +159,7 @@ function createTimetable(data) {
     }
     Array.from(div.querySelectorAll("div[data-shown]")).at(-1).style.borderBottom = "";
     times.forEach((t, i) => {
-        if (i <= earliest - 10 || i >= latest + 10) return;
+        if (i <= earliest - 60 || i >= latest + 60) return;
 
         t.style.minHeight = "0.035ch";
     })
