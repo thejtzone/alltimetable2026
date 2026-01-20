@@ -278,11 +278,11 @@ function createTimetable(data) {
 
         let percWidth = Number(eventDiv.style.width.replace("%", "")); // initial is 65%
         let newWidth = percWidth / (sameTimeEvents.length + 1);
-        eventDiv.style.width = `${newWidth - 1}%`;
+        eventDiv.style.width = `${newWidth}%`;
 
         sameTimeEvents.forEach(e => {
-            e.style.width = `${percWidth - newWidth - 1}%`;
-            e.style.marginLeft = `calc(${eventDiv.style.marginLeft} + ${newWidth + 1}%`;
+            e.style.width = `${percWidth - newWidth}%`;
+            e.style.marginLeft = `calc(${eventDiv.style.marginLeft} + ${newWidth}%`;
         });        
 
         let realWidth = eventDiv.offsetWidth;
