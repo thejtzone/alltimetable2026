@@ -173,6 +173,8 @@ function createTimetable(data) {
             backgroundColor: event.color || (isDarkMode ? randDarkCol() : randLightCol()),
             boxShadow: `0 0 ${heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh"} rgba(0, 0, 0, 0.4)`,
             width: "65%",
+            marginLeft: "17.5%",
+            marginRight: "17.5%",
             height: "100%",
             borderRadius: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
         }
@@ -326,11 +328,11 @@ function createTimetable(data) {
         let percWidth = Number(eventDiv.style.width.replace("%", ""));
         let newWidth = percWidth / (sameTimeEvents.length);
         eventDiv.style.width = `${newWidth - 1}%`;
-        eventDiv.style.marginRight = `${percWidth - newWidth + 1}%`;
+        eventDiv.style.marginRight = `${percWidth - newWidth + 1 + 17.5}%`;
 
         sameTimeEvents.forEach(e => {
             e.style.width = `${percWidth - newWidth - 1}%`;
-            e.style.marginLeft = `${newWidth + 1}%`;
+            e.style.marginLeft = `${17.5 + newWidth + 1}%`;
         });        
 
         let realWidth = eventDiv.offsetWidth;
