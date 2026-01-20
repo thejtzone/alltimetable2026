@@ -375,3 +375,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("An error occurred the timetable creator had to exit early.");
     else console.log("Timetable created successfully!");
 })
+document.addEventListener("resize", () => tooltip?.remove());
+window.addEventListener("focus", () => tooltip?.remove());
+window.addEventListener("focusout", () => tooltip?.remove());
