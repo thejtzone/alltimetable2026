@@ -208,9 +208,15 @@ function createTimetable(data) {
             simulationDiv.style[key] = value;
         });
 
-        simulationDiv.style.position = "absolute";
-        simulationDiv.style.visibility = "hidden";
-        simulationDiv.style.whiteSpace = "nowrap";
+        let simStyles = {
+            position: "absolute",
+            visibility: "hidden",
+            whiteSpace: "nowrap",
+            width: "min-content",
+            minWidth: "min-content",
+            maxWidth: "min-content"
+        }
+        Object.entries(simStyles).forEach(([key, value]) => simulationDiv.style[key] = value);
 
         document.body.appendChild(simulationDiv);
 
