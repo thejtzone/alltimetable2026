@@ -255,6 +255,7 @@ function createTimetable(data) {
         let realHeight = eventDiv.offsetHeight;
         
         if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
+        eventDiv.textContent = event.name;
 
         return eventDiv;
     }
