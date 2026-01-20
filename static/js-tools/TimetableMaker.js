@@ -117,7 +117,7 @@ function createTimetable(data) {
         let eventDiv = document.createElement("div");
         let styles = {
             gridArea: `${event.start + 2} / ${event.day + 2} / ${event.end + 2} / ${event.day + 2}`,
-            backgroundColor: event.color || randCol(),
+            backgroundColor: event.color || randLightCol(),
             boxShadow: `0 0 ${heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh"} rgba(0, 0, 0, 0.4)`,
             width: "65%",
             height: "100%",
@@ -136,6 +136,15 @@ function createTimetable(data) {
         Object.entries(datasets).forEach(([key, value]) => eventDiv.dataset[key] = value);
 
         eventDiv.addEventListener("mousemove", e => moveTooltip(event, idx));
+        eventDiv.addEventListener("click", e => {
+            let code = event.uniqueCode;
+            if (!code) {
+                alert("This event does not have a unique code, and thus cannot be opened.");
+                return;
+            }
+
+            window.location.href = `/event/${code}`;
+        })
 
         div.appendChild(eventDiv);
     })
@@ -215,6 +224,7 @@ function moveTooltip(event, eID) {
 
 function pad(number, digits) {return String(number).padStart(digits, "0");}
 function randCol() {return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`; }
+function randLightCol() {return `rgb(${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)})`; }
 function neatTime(time) {return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`}
 
 function createElement(element, options = {}) {
