@@ -50,8 +50,8 @@
     function openFilterAndSearchModal() {
         const base = createElement("div", {styles: {
             display: "grid",
-            width: window.innerWidth > 800 ? "80dvw" : "95dvw",
-            height: window.innerHeight > 800 ? "90dvh" : "100dvh",
+            width: window.innerWidth > 800 ? "75dvw" : "90dvw",
+            height: window.innerWidth > 800 ? "85dvh" : "95dvh",
             position: "absolute",
             top: "50%",
             left: "50%",
@@ -60,7 +60,8 @@
             borderRadius: "1dvh",
             backgroundColor: "rgb(30, 30, 30)",
             gridTemplateColumns: "1fr",
-            gridTemplateRows: "min-content 1fr min-content"
+            gridTemplateRows: "min-content 1fr min-content",
+            padding: "5dvh 5dvw"
         }});
 
         const topText = createElement("p", {append: base, styles: {
@@ -76,8 +77,8 @@
             gridTemplateRows: "1fr"
         }});
 
-        const addFilterButton = createElement("button", {append: buttonHolder, classname: "addFilterButton"});
-        const confirmButton = createElement("button", {append: buttonHolder, classname: "confirmButton"});
+        const addFilterButton = createElement("button", {append: buttonHolder, classname: "addFilterButton", tc: "Add Filter"});
+        const confirmButton = createElement("button", {append: buttonHolder, classname: "confirmButton", tc: "Confirm Filters"});
 
         addFilterButton.addEventListener("click", () => addFilter(blank));
         confirmButton.addEventListener("click", () => confirmFilters(blank));
