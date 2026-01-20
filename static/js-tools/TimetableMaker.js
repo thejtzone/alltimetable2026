@@ -254,6 +254,8 @@ function createTimetable(data) {
             
             dayMore = newEvent({
                 name: `+${remaining} more`,
+                desc: `-${remainingEvents.map(e => e.dataset.name).filter((e, i) => i < 6).join(",\n-")}` + 
+                    (remainingEvents.length > 6 ? `\n+${remaining - 6} more...` : ""),
                 start: earliest,
                 end: latest,
                 day: Number(day),
