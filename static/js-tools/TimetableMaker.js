@@ -147,9 +147,26 @@ function createTimetable(data) {
         let start = eventDiv.dataset.start;
         let end = eventDiv.dataset.end;
         let eid = eventDiv.dataset.eid;
+        let duration = eventDiv.dataset.duration;
 
         let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
             .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && e.dataset.eid != eid);
+
+        sameTimeEvents.forEach(e => {
+            let otherDuration = e.dataset.duration;
+            if (Number(otherDuration) < Number(duration)) {
+                if (String(e.style.width).endsWith("%")) {
+                    let perc = Number(e.style.width.replace("%", ""));
+                    perc -= 5;
+                    e.style.width = `${perc}%`;
+                } else e.style.width = `${Number(e.style.width) - 5}px`;
+            } else if (Number(otherDuration) == Number(duration)) {
+                let otherWidth = e.style.width;
+                let thisWidth = eventDiv.style.width;
+
+                // TODO: add logic
+            }
+        })
 
         console.log(`Overlap events: ` + sameTimeEvents);
     })
