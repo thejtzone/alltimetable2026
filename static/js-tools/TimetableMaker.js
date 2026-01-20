@@ -166,7 +166,7 @@ function createTimetable(data) {
         div.appendChild(header);
     }
 
-    (data || []).forEach((event, idx) => {
+    function newEvent(event, idx) {
         let eventDiv = document.createElement("div");
         let styles = {
             gridArea: `${event.start + 2} / ${event.day + 2} / ${event.end + 2} / ${event.day + 2}`,
@@ -217,7 +217,9 @@ function createTimetable(data) {
             eventDiv.style.textOverflow = "ellipsis";
             eventDiv.style.whiteSpace = "nowrap";
         }
-    })
+    }
+
+    (data || []).forEach((event, idx) => newEvent(event, idx));
 
     Array.from(div.querySelectorAll(`div[data-eid]`)).forEach((eventDiv, idx) => {
         if (!eventDiv) return;
@@ -230,6 +232,28 @@ function createTimetable(data) {
 
         let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
             .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
+
+        if (sameTimeEvents.length > 4) {
+            let remaining = sameTimeEvents.length - 4;
+            let remainingEvents = sameTimeEvents.slice(4);
+            sameTimeEvents.forEach((e, i) => i >= 4 && e.remove());
+
+            let earliest = Math.min(...remainingEvents.map(e => Number(e.dataset.start)));
+            let latest = Math.max(...remainingEvents.map(e => Number(e.dataset.end)));
+            
+            newEvent({
+                name: `+${remaining} more`,
+                start: earliest,
+                end: latest,
+                day: day,
+                color: isDarkMode ? randLightCol() : randDarkCol(),
+                uniqueCode: undefined,
+                url: `/day/${day}`
+            }, -day);
+
+            sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
+                .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && Number(e.dataset.eid) > Number(eid));
+        }
 
         let percWidth = Number(eventDiv.style.width.replace("%", ""));
         let newWidth = percWidth / (sameTimeEvents.length + 1);
