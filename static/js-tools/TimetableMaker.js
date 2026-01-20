@@ -55,6 +55,23 @@ function createTimetable(data) {
     const div = document.querySelector(`div#${DIV_ID}`);
     if (!div) return false;
 
+    const divWidth = div.style.width || div.clientWidth;
+    if (String(divWidth).endsWith("%")) {
+        let perc = Number(divWidth.slice(0, -1));
+        if (perc >= 100) perc = 98;
+        div.style.width = `${perc}%`;
+    } else if (String(divWidth).endsWith("dvw")) {
+        let dvw = Number(divWidth.slice(0, -3));
+        if (dvw >= 100) dvw = 98;
+        div.style.width = `${dvw}dvw`;
+    } else {
+        divWidth = Number(String(divWidth).removeSuffix("px"));
+        let parentWidth = div.parentElement.clientWidth;
+        let perc = divWidth / parentWidth * 100;
+        if (perc >= 100) perc = 98;
+        div.style.width = `${perc}%`;
+    }
+
     data = isStringified(data || "[]") ? JSON.parse(data || "[]") : (data || []);
     const earliest = data.length > 0 ? data.sort((a, b) => a.start - b.start)[0].start : "none";
     const latest = data.length > 0 ? data.sort((a, b) => b.end - a.end)[0].end : "none";
