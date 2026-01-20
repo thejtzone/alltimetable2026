@@ -263,7 +263,6 @@ function createTimetable(data) {
                 uniqueCode: undefined,
                 url: `/day/${day}`
             },  arr.length + 1);
-            dayMore.style.whiteSpace = "pre-line";
             
             // arr.splice(i + 1, 0, dayMore);
             arr.push(dayMore);
@@ -329,14 +328,15 @@ function moveTooltip(event, eID) {
         minWidth: "10dvh",
         minHeight: "10dvh",
         pointerEvents: "none",
-        userSelect: "none"
+        userSelect: "none",
+        whiteSpace: "pre-line"
     }
     Object.entries(tooltipStyles).forEach(([key, value]) => tooltip.style[key] = value);
 
     tooltip.innerHTML = "";
 
     createElement("h2", {tc: event.name, append: tooltip});
-    createElement("p", {tc: event.desc, append: tooltip});
+    createElement("p", {tc: event.desc, append: tooltip, style: {whiteSpace: "pre-line"}});
     createElement("p", {tc: `${neatTime(event.start)} - ${neatTime(event.end)}`, append: tooltip});
 
     let width = tooltip.getBoundingClientRect().width;
