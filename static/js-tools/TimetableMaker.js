@@ -198,6 +198,24 @@ function createTimetable(data) {
         div.appendChild(header);
     }
 
+    function simulateText(text, styling = {}, fitWidth) {
+        let simulationDiv = document.createElement("div");
+        simulationDiv.textContent = text;
+        Object.entries(styling).forEach(([key, value]) => simulationDiv.style[key] = value);
+        document.body.appendChild(simulationDiv);
+        let width = simulationDiv.getBoundingClientRect().width;
+        while (width > fitWidth) {
+            text = text.slice(0, -1);
+            if (!text.endsWith("..."))
+                text += "...";
+
+            simulationDiv.textContent = text;
+            width = simulationDiv.getBoundingClientRect().width;
+        }
+        document.body.removeChild(simulationDiv);
+        return text;
+    } 
+
     function newEvent(event, idx) {
         let eventDiv = document.createElement("div");
         let styles = {
@@ -212,13 +230,7 @@ function createTimetable(data) {
             justifySelf: "left",
             border: "1px solid black",
             // opacity: 0.70
-            opacity: isDarkMode ? 0.80 : 0.70,
-            textIndent: "1ch",
-            fontSize: "1dvw",
-            fontWeight: "bold",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap"
+            opacity: isDarkMode ? 0.80 : 0.70
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
 
@@ -253,9 +265,19 @@ function createTimetable(data) {
 
         let realWidth = eventDiv.offsetWidth;
         let realHeight = eventDiv.offsetHeight;
+
+        let textStyles = {
+            textIndent: "1ch",
+            fontSize: "1dvw",
+            fontWeight: "bold",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap"
+        }
         
-        if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
-        eventDiv.textContent = event.name;
+        if (realHeight > realWidth) textStyles.writingMode = "vertical-lr";
+        let fittedText = simulateText(event.name, styles, realHeight > realWidth ? realHeight : realWidth);
+        eventDiv.textContent = fittedText;
 
         return eventDiv;
     }
