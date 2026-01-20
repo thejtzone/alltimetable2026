@@ -22,8 +22,12 @@ def get_user_timetable(identifier: str) -> list:
 
     cur.execute(f"SELECT classlist FROM users WHERE identifier = '{identifier}'")
     classlist = cur.fetchone()
+    if not classlist:
+        cur.close()
+        conn.close()
+        return []
 
-    cur.execute(f"SELECT * FROM events WHERE uniqueCode IN ({','.join([f'\'{x[0]}\'' for x in classlist])})")
+    cur.execute("SELECT * FROM events WHERE uniqueCode IN ({})".format(','.join([f'\'{x[0]}\'' for x in classlist[0]])))
     columns = [desc[0] for desc in cur.description]
     results = cur.fetchall()
 
@@ -38,9 +42,14 @@ def get_all_timetables() -> dict[str, list]:
     cur.execute("SELECT identifier, classlist FROM users")
     classlist = cur.fetchall()
 
+    if not classlist:
+        cur.close()
+        conn.close()
+        return {}
+
     timetables = {}
     for identifier, cl in classlist:
-        cur.execute(f"SELECT * FROM events WHERE uniqueCode IN ({','.join([f'\'{x[0]}\'' for x in cl])})")
+        cur.execute("SELECT * FROM events WHERE uniqueCode IN ({})".format(','.join([f'\'{x[0]}\'' for x in cl[0]])))
         columns = [desc[0] for desc in cur.description]
         results = cur.fetchall()
         timetables[identifier] = [dict(zip(columns, result)) for result in results]
@@ -50,47 +59,7 @@ def get_all_timetables() -> dict[str, list]:
     return timetables
 
 
-
-
-# Parsers
-def parse_timetable(timetable: list[dict], day: int) -> list[str]:
-    # Timetable in format of:
-    # [{ start: x, end: y, name: z }, ...]
-    # Convert to format of:
-    # [z, z, z, ...] until y is reached
-    
-    day_timetable: list = filter(lambda x: x['day'] == day, timetable)
-    converted = []
-    cur_time = 0
-    while cur_time < 24 * 60:
-        converted.append([])
-        cur_time += 1
-    for entry in day_timetable:
-        start = entry['start']
-        end = entry['end']
-        name = entry['name']
-        for i in range(start, end):
-            converted[i].append(name)
-    return converted
-
-def parse_timetables(timetables: dict[str, list], day: int) -> dict[str, list]:
-    return dict(map(lambda x: (x[0], parse_timetable(x[1], day)), timetables.items()))
-
-
-
 # Makers
-def new_timetable(timetable: list[str], day: int) -> list[dict]:
-    uniques = list(set(timetable))
-    firstIndexes = [timetable.index(x) for x in uniques]
-    reversedTimetable = list(reversed(timetable))
-    lastIndexes = [reversedTimetable.index(x) for x in uniques]
-    return [{
-        'day': day,
-        'start': firstIndexes[x],
-        'end': lastIndexes[x] + 1,
-        'name': uniques[x]
-    } for x, u in enumerate(uniques)]
-
 def add_event(identifier: str, event: dict) -> bool:
     fields = [
         "uniqueCode",   # (primary) Text
