@@ -17,7 +17,7 @@
 <script>
 
     function href(href) {
-        document.querySelector('iframe').contentWindow.location.href = href;
+        document.querySelector('iframe').src = href;
         window.history.pushState({}, '', href);
     }
 
