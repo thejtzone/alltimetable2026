@@ -113,30 +113,33 @@ function createTimetable(data) {
             height: "100%",
         }
         Object.entries(blankStyles).forEach(([key, value]) => blank.style[key] = value);
+        blank.dataset.type = "blank";
         blanks.push(blank);
         div.appendChild(blank);
     }
 
     const times = [];
+    function blankTime(i) {
+        let time = document.createElement("div");
+        time.style.gridArea = `${i + 2} / 1 / ${i + 3} / 1`;
+        time.dataset.type = "time-blank";
+        times.push(time);
+        div.appendChild(time);
+    }
+
     for (let i = 0; i < 24 * 60; i++) {
-        if (i % 30 != 0) {
-            let time = document.createElement("div");
-            time.style.gridArea = `${i + 2} / 1 / ${i + 3} / 1`;
-            times.push(time);
-            div.appendChild(time);
-            continue;
-        }
+        if (i % 30 != 0) { blankTime(i); continue; }
 
         // Filter out times before 8am unless there is an event earlier than 8am
         if (i < 8 * 60) {
-            if (earliest == "none") continue;
-            if (i < earliest) continue;
+            if (earliest == "none" || i < earliest) 
+                { blankTime(i); continue; }
         }
 
         // Filter out times after 7pm unless there is an event later than 7pm
         if (i > 19 * 60) {
-            if (latest == "none") continue;
-            if (i > latest) continue;
+            if (latest == "none" || i > latest) 
+                { blankTime(i); continue; }
         }
 
         let time = document.createElement("div");
@@ -144,6 +147,8 @@ function createTimetable(data) {
         times.push(time);
         
         time.textContent = neatTime(i);
+        time.dataset.shown = "true";
+        time.dataset.type = "time-display";
 
         div.appendChild(time);
 
@@ -153,13 +158,14 @@ function createTimetable(data) {
         hr.style.height = "100%";
         hr.style.paddingBottom = "0.01ch";
         hr.dataset.shown = "true";
+        hr.dataset.type = "time-hr";
         if (isDarkMode) hr.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)";
         else hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
         div.appendChild(hr);
     }
     Array.from(div.querySelectorAll("div[data-shown]")).at(-1).style.borderBottom = "";
     times.forEach((t, i) => {
-        if (i <= earliest - 60 || i >= latest + 60) return;
+        if (i <= earliest - 60 || i >= latest) return;
 
         t.style.minHeight = "0.035ch";
     })
@@ -176,6 +182,7 @@ function createTimetable(data) {
         if (isDarkMode) header.style.borderBottom = "1px solid rgba(255, 255, 255, 0.4)";
         else header.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
         header.style.width = "100%";
+        header.dataset.type = "header";
         div.appendChild(header);
     }
 
@@ -221,6 +228,7 @@ function createTimetable(data) {
             }, "*");
         })
 
+        eventDiv.dataset.type = "event";
         div.appendChild(eventDiv);
 
         let realWidth = eventDiv.offsetWidth;
