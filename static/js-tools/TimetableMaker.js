@@ -190,7 +190,7 @@ function createTimetable(data) {
         if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
         eventDiv.textContent = event.name;
         eventDiv.style.textIndent = "2ch";
-        eventDiv.style.fontSize = "1.4rem";
+        eventDiv.style.fontSize = "1dvw";
         eventDiv.style.fontWeight = "bold";
 
         // Ensure text fits
