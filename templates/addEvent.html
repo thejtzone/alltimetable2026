@@ -36,7 +36,7 @@
                 start: document.querySelectorAll('input[type="time"]')[0].valueAsNumber / (60 * 1000),
                 end: document.querySelectorAll('input[type="time"]')[1].valueAsNumber / (60 * 1000),
                 day: document.querySelector('input[type="number"]').valueAsNumber,
-                weeks: Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(x => x.checked).map(x => x.id.split('week')[1]),
+                weeks: `[${Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(x => x.checked).map(x => x.id.split('week')[1]).toString()}]`,
             }
 
             console.log(event)
