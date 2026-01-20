@@ -149,7 +149,7 @@ function createTimetable(data) {
         let eid = eventDiv.dataset.eid;
 
         let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
-            .filter(e => e.dataset.start <= end && e.dataset.end >= start && e.dataset.eid != eid);
+            .filter(e => Number(e.dataset.start) <= Number(end) && Number(e.dataset.end) >= Number(start) && e.dataset.eid != eid);
 
         console.log(`Overlap events: ` + sameTimeEvents);
     })
