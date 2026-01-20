@@ -65,9 +65,9 @@ function createTimetable(data) {
         if (dvw >= 100) dvw = 98;
         div.style.width = `${dvw}dvw`;
     } else {
-        divWidth = Number(String(divWidth).replace("px", ""));
+        let dw = Number(String(divWidth).replace("px", ""));
         let parentWidth = div.parentElement.clientWidth;
-        let perc = divWidth / parentWidth * 100;
+        let perc = dw / parentWidth * 100;
         if (perc >= 100) perc = 98;
         div.style.width = `${perc}%`;
     }
