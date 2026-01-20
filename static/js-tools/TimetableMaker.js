@@ -125,17 +125,6 @@ function createTimetable(data) {
         time.dataset.type = "time-blank";
         times.push(time);
         div.appendChild(time);
-        if (i % 30 != 0) return;
-        
-        let hr = document.createElement("div");
-        hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
-        hr.style.width = "100%";
-        hr.style.height = "100%";
-        hr.dataset.shown = "true";
-        hr.dataset.type = "time-blank-hr";
-        if (isDarkMode) hr.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)";
-        else hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
-        div.appendChild(hr);
     }
 
     for (let i = 0; i < 24 * 60; i++) {
