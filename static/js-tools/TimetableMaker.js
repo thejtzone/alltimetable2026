@@ -190,6 +190,14 @@ function createTimetable(data) {
         if (realHeight > realWidth) eventDiv.style.writingMode = "vertical-lr";
         eventDiv.textContent = event.name;
         eventDiv.style.textIndent = "2ch";
+
+        // Ensure text fits
+        if (eventDiv.offsetWidth > realWidth) {
+            eventDiv.style.textIndent = "0";
+            eventDiv.style.overflow = "hidden";
+            eventDiv.style.textOverflow = "ellipsis";
+            eventDiv.style.whiteSpace = "nowrap";
+        }
     })
 
     Array.from(div.querySelectorAll(`div[data-eid]`)).forEach((eventDiv, idx) => {
