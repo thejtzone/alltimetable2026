@@ -9,7 +9,7 @@ function is24HourClock() {
   const parts = dtf.formatToParts(new Date());
   return !parts.some(p => p.type === 'dayPeriod');
 }
-const is24HourMode = (x = getCookie("24hr")) ? x === "true" : is24HourClock();
+const is12HourMode = (x = getCookie("12hr")) ? x === "true" : !is24HourClock();
 
 function getCookie(name) {
     let cookieValue = null;
@@ -382,7 +382,7 @@ function randLightCol() {return `rgb(${Math.floor(Math.random() * 128 + 127)}, $
 function randDarkCol() {return `rgb(${Math.floor(Math.random() * 64 + 127)}, ${Math.floor(Math.random() * 64 + 127)}, ${Math.floor(Math.random() * 64 + 127)})`; }
 
 function neatTime(time) {
-    if (is24HourMode) return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`;
+    if (!is12HourMode) return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`;
 
     let hour = Math.floor(time / 60) % 12;
     if (hour === 0) hour = 12;
