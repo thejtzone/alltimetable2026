@@ -4,21 +4,32 @@ PORT = 7554
 
 import dbdata
 
+
+#!---- ROOT ----!#
 @app.route('/<path:path>') 
 def path_root(path): return render_template("root.html", path=path)
 
 @app.route('/')
 def root(): return render_template("root.html", path="index")
 
+
+#!---- INTERNAL ----!#
 @app.route('/internal/<path:path>')
 def catch_all(path): return "404 - Page not found"
 
 @app.route('/internal/user/<user>')
 def user_page(user): return render_template("user.html", user=user)
 
+
+#!---- API ----!#
 @app.route('/api/getUser/<user>')
 def get_user(user): return jsonify(dbdata.get_user_timetable(user))
 
+@app.route('/api/getAllUsers')
+def get_all_users(): return jsonify(dbdata.get_all_timetables())
+
+
+#!---- ADMIN ----!#
 @app.route('/admin/<user>/addEvent')
 def add_event(user): return render_template("addEvent.html", user=user)
 
