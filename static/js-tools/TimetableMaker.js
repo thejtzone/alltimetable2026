@@ -140,12 +140,16 @@ function createTimetable(data) {
         div.appendChild(eventDiv);
     })
 
-    (data || []).forEach((event, idx) => {
-        let eventDiv = document.querySelector(`div#${DIV_ID} div[data-eid="${idx}"]`);
+    Array.from(div.querySelectorAll(`div[data-eid]`)).forEach((eventDiv, idx) => {
         if (!eventDiv) return;
 
-        let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${event.day}"]`))
-            .filter(e => e.dataset.start <= event.end && e.dataset.end >= event.start && e.dataset.eid != event.eid);
+        let day = eventDiv.dataset.day;
+        let start = eventDiv.dataset.start;
+        let end = eventDiv.dataset.end;
+        let eid = eventDiv.dataset.eid;
+
+        let sameTimeEvents = Array.from(div.querySelectorAll(`div[data-day="${day}"]`))
+            .filter(e => e.dataset.start <= end && e.dataset.end >= start && e.dataset.eid != eid);
 
         console.log(`Overlap events: ` + sameTimeEvents);
     })
