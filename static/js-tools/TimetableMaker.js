@@ -199,23 +199,45 @@ function createTimetable(data) {
     }
 
     function simulateText(text, styling = {}, fitWidth) {
-        let simulationDiv = document.createElement("div");
+        const simulationDiv = document.createElement("div");
         simulationDiv.textContent = text;
-        Object.entries(styling).forEach(([key, value]) => simulationDiv.style[key] = value);
+
+        Object.entries(styling).forEach(([key, value]) => {
+            simulationDiv.style[key] = value;
+        });
+
+        simulationDiv.style.position = "absolute";
+        simulationDiv.style.visibility = "hidden";
+        simulationDiv.style.whiteSpace = "nowrap";
+
         document.body.appendChild(simulationDiv);
 
-        let originalText = text;
         let width = simulationDiv.offsetWidth;
-        let removedCharacters = 0;
-        while (width > fitWidth && text.length > 3) {
-            text = originalText.slice(0, -1 - removedCharacters) + "...";
-            simulationDiv.textContent = text;
-            width = simulationDiv.offsetWidth;
-            removedCharacters++;
+        if (width <= fitWidth) {
+            document.body.removeChild(simulationDiv);
+            return text;
         }
+
+        const originalText = text;
+        let end = originalText.length;
+
+        while (end > 0) {
+            const candidate = originalText.slice(0, end) + "...";
+            simulationDiv.textContent = candidate;
+            width = simulationDiv.offsetWidth;
+
+            if (width <= fitWidth) {
+                document.body.removeChild(simulationDiv);
+                return candidate;
+            }
+
+            end--; // remove exactly 1 visible char each pass
+        }
+
         document.body.removeChild(simulationDiv);
-        return text;
-    } 
+        return "...";
+    }
+
 
     function newEvent(event, idx) {
         let eventDiv = document.createElement("div");
@@ -225,12 +247,10 @@ function createTimetable(data) {
             boxShadow: `0 0 ${heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh"} rgba(0, 0, 0, 0.4)`,
             width: "65%",
             marginLeft: "17.5%",
-            // marginRight: "17.5%",
             height: "100%",
             borderRadius: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
             justifySelf: "left",
             border: "1px solid black",
-            // opacity: 0.70
             opacity: isDarkMode ? 0.80 : 0.70
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
@@ -277,7 +297,7 @@ function createTimetable(data) {
         }
         
         if (realHeight > realWidth) textStyles.writingMode = "vertical-lr";
-        let fittedText = simulateText(event.name, styles, realHeight > realWidth ? realHeight : realWidth);
+        let fittedText = simulateText(event.name, styles, (realHeight > realWidth ? realHeight : realWidth));
         eventDiv.textContent = fittedText;
 
         return eventDiv;
