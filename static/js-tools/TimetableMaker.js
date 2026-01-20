@@ -208,7 +208,8 @@ function createTimetable(data) {
             height: "100%",
             borderRadius: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
             justifySelf: "left",
-            border: "1px solid black"
+            border: "1px solid black",
+            opacity: 0.95
         }
         Object.entries(styles).forEach(([key, value]) => eventDiv.style[key] = value);
 
