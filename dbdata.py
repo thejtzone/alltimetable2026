@@ -52,7 +52,7 @@ def get_all_timetables() -> dict[str, list]:
     timetables = {}
     for identifier, cl in classlist:
         print(identifier, cl)
-        cur.execute("SELECT * FROM events WHERE \"uniqueCode\" IN ({})".format(','.join([f'\'{x}\'' for x in cl[0]])))
+        cur.execute("SELECT * FROM events WHERE \"uniqueCode\" IN ({})".format(','.join([f'\'{x}\'' for x in cl])))
         columns = [desc[0] for desc in cur.description]
         results = cur.fetchall()
         timetables[identifier] = [dict(zip(columns, result)) for result in results]
