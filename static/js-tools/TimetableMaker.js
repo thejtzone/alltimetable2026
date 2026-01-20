@@ -125,7 +125,8 @@ function createTimetable(data) {
         time.dataset.type = "time-blank";
         times.push(time);
         div.appendChild(time);
-
+        if (i % 30 != 0) return;
+        
         let hr = document.createElement("div");
         hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
         hr.style.width = "100%";
