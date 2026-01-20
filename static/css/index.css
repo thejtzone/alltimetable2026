@@ -1,7 +1,7 @@
-#addFilterButton { background-color: darkturquoise; }
-#confirmButton { background-color: aquamarine; }
+.addFilterButton { background-color: darkturquoise; }
+.confirmButton { background-color: aquamarine; }
 
-#addFilterButton, #confirmButton {
+.addFilterButton, .confirmButton {
     border: none;
     color: white;
     padding: 15px 32px;
@@ -12,7 +12,7 @@
     cursor: pointer;
 }
 
-#addFilterButton:hover, #confirmButton:hover {
+.addFilterButton:hover, .confirmButton:hover {
     opacity: 0.9;
     transition-duration: 0.3s;
 }
