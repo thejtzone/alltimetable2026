@@ -96,7 +96,7 @@ function createTimetable(data) {
     let divStyles = {
         display: "grid",
         gridTemplateColumns: `min-content 0.5fr repeat(5, 1fr) 0.5fr`,
-        gridTemplateRows: `min-content repeat(${24 * 60 + 1}, minmax(0.05ch, min-content))`,
+        // gridTemplateRows: `min-content repeat(${24 * 60 + 1}, minmax(0.05ch, min-content))`,
         justifyItems: "center",
         alignItems: "center",
         gridColumnGap: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
@@ -119,7 +119,13 @@ function createTimetable(data) {
 
     const times = [];
     for (let i = 0; i < 24 * 60; i++) {
-        if (i % 30 != 0) continue;
+        if (i % 30 != 0) {
+            let time = document.createElement("div");
+            time.style.gridArea = `${i + 2} / 1 / ${i + 3} / 1`;
+            times.push(time);
+            div.appendChild(time);
+            continue;
+        }
 
         // Filter out times before 8am unless there is an event earlier than 8am
         if (i < 8 * 60) {
@@ -134,7 +140,7 @@ function createTimetable(data) {
         }
 
         let time = document.createElement("div");
-        time.style.gridArea = `${i + 2} / 1 / ${i + 3} / 1`;
+        time.style.gridArea = `${i + 2} / 1 / ${i + 2} / 1`;
         times.push(time);
         
         time.textContent = neatTime(i);
@@ -142,14 +148,20 @@ function createTimetable(data) {
         div.appendChild(time);
 
         let hr = document.createElement("div");
-        hr.style.gridArea = `${i + 3} / 1 / ${i + 3} / 9`;
+        hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
         hr.style.width = "100%";
         hr.style.height = "100%";
+        hr.dataset.shown = "true";
         if (isDarkMode) hr.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)";
         else hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
         div.appendChild(hr);
     }
-    Array.from(div.children).at(-1).style.borderBottom = "";
+    Array.from(div.querySelectorAll("div[data-shown]")).at(-1).style.borderBottom = "";
+    times.forEach((t, i) => {
+        if (i <= earliest || i >= latest) return;
+
+        t.style.minHeight = "0.05ch";
+    })
 
     const headers = [];
     for (let i = 0; i < 8; i++) {
