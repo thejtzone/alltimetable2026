@@ -294,36 +294,37 @@ function createTimetable(data) {
             Number(e.dataset.end) >= Number(start) && 
             idx > i);
 
-        // if (sameTimeEvents.length > 4) {
-        //     let remaining = sameTimeEvents.length - 4;
-        //     let remainingEvents = sameTimeEvents.slice(4);
-        //     sameTimeEvents.forEach((e, i) => i >= 4 && e.remove());
+        if (sameTimeEvents.length > 4) {
+            let remaining = sameTimeEvents.length - 4;
+            let remainingEvents = sameTimeEvents.slice(4);
+            sameTimeEvents.forEach((e, i) => i >= 4 && e.remove());
 
-        //     let earliest = Math.min(...remainingEvents.map(e => Number(e.dataset.start)));
-        //     let latest = Math.max(...remainingEvents.map(e => Number(e.dataset.end)));
+            let earliest = Math.min(...remainingEvents.map(e => Number(e.dataset.start)));
+            let latest = Math.max(...remainingEvents.map(e => Number(e.dataset.end)));
             
-        //     dayMore = newEvent({
-        //         name: `+${remaining} more`,
-        //         start: earliest,
-        //         end: latest,
-        //         day: Number(day),
-        //         color: isDarkMode ? randLightCol() : randDarkCol(),
-        //         uniqueCode: undefined,
-        //         url: `/day/${day}`
-        //     },  arr.length + 1);
+            dayMore = newEvent({
+                name: `+${remaining} more`,
+                start: earliest,
+                end: latest,
+                day: Number(day),
+                color: isDarkMode ? randLightCol() : randDarkCol(),
+                uniqueCode: undefined,
+                url: `/day/${day}`
+            },  arr.length + 1);
             
-        //     arr.splice(i + 1, 0, dayMore);
-        //     remainingEvents.forEach(e => {
-        //         let remIDX = arr.indexOf(e);
-        //         if (remIDX > i) arr.splice(remIDX, 1);
-        //     });
+            // arr.splice(i + 1, 0, dayMore);
+            arr.push(dayMore);
+            remainingEvents.forEach(e => {
+                let remIDX = arr.indexOf(e);
+                if (remIDX > i) arr.splice(remIDX, 1);
+            });
 
-        //     sameTimeEvents = arr.filter(e =>
-        //         e.dataset.day === day &&
-        //         Number(e.dataset.start) <= Number(end) && 
-        //         Number(e.dataset.end) >= Number(start) && 
-        //         Number(e.dataset.eid) > Number(eid));
-        // }
+            sameTimeEvents = arr.filter(e =>
+                e.dataset.day === day &&
+                Number(e.dataset.start) <= Number(end) && 
+                Number(e.dataset.end) >= Number(start) && 
+                Number(e.dataset.eid) > Number(eid));
+        }
 
         let percWidth = Number(eventDiv.style.width.replace("%", ""));
         let newWidth = percWidth / (sameTimeEvents.length);
