@@ -82,9 +82,9 @@ def add_event(identifier: str, event: dict) -> bool:
         uniqueCode = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
         event['uniqueCode'] = uniqueCode
 
-    values = [event.get(field) for field in fields]
+    values = [event.get(field ) for field in fields]
     
-    cur.execute(f"INSERT INTO events ({','.join(fields)}) VALUES ({','.join(['%s' for _ in fields])})", values)
+    cur.execute(f"INSERT INTO events ({','.join(fields)}) VALUES (\"{'\", \"'.join(['%s' for _ in fields])}\")", values)
     conn.commit()
 
     # Get current user classlist
