@@ -96,7 +96,7 @@ function createTimetable(data) {
     let divStyles = {
         display: "grid",
         gridTemplateColumns: `min-content 0.5fr repeat(5, 1fr) 0.5fr`,
-        gridTemplateRows: `min-content repeat(${24 * 60 + 1}, min-content)`,
+        gridTemplateRows: `min-content repeat(${24 * 60 + 1}, max(0.1ch, min-content))`,
         justifyItems: "center",
         alignItems: "center",
         gridColumnGap: heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh",
