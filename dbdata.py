@@ -26,8 +26,10 @@ def get_user_timetable(identifier: str) -> list:
         cur.close()
         conn.close()
         return []
+    
+    # classlist = ["x", "y", ...]
 
-    cur.execute("SELECT * FROM events WHERE \"uniqueCode\" IN ({})".format(','.join([f'\'{x[0]}\'' for x in classlist])))
+    cur.execute("SELECT * FROM events WHERE \"uniqueCode\" IN ({})".format(','.join([f'\'{x}\'' for x in classlist[0]])))
     columns = [desc[0] for desc in cur.description]
     results = cur.fetchall()
 
@@ -49,7 +51,7 @@ def get_all_timetables() -> dict[str, list]:
 
     timetables = {}
     for identifier, cl in classlist:
-        cur.execute("SELECT * FROM events WHERE \"uniqueCode\" IN ({})".format(','.join([f'\'{x[0]}\'' for x in cl])))
+        cur.execute("SELECT * FROM events WHERE \"uniqueCode\" IN ({})".format(','.join([f'\'{x}\'' for x in cl[0]])))
         columns = [desc[0] for desc in cur.description]
         results = cur.fetchall()
         timetables[identifier] = [dict(zip(columns, result)) for result in results]
