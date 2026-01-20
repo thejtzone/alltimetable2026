@@ -204,7 +204,7 @@ function createTimetable(data) {
             window.top.postMessage({
                 type: "href",
                 href: code ? `/event/${code}` : url
-            })
+            }, "*");
         })
 
         div.appendChild(eventDiv);
