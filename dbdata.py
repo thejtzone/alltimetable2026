@@ -1,7 +1,14 @@
 import psycopg2
 import json
 
-DB_CONN = "postgresql://neondb_owner:npg_KI2qSMyNnc1X@ep-holy-cake-a7hqt7xv-pooler.ap-southeast-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+import string, random
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+DB_CONN = os.getenv("DB_CONN")
 
 # Table: users
 # Columns: identifier, displayname, timetable
@@ -77,6 +84,13 @@ def add_event(identifier: str, event: dict) -> bool:
 
         timetable = get_user_timetable(identifier)
         if not timetable: timetable = []
+
+        if not event.get("uniqueCode"):
+            event["uniqueCode"] = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k=16))
+
+        for i, t in enumerate(timetable):
+            if not t.get("uniqueCode"):
+                timetable[i]["uniqueCode"] = event["uniqueCode"]
 
         timetable.append(event)
 
