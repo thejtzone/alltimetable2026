@@ -265,7 +265,7 @@ function createTimetable(data) {
                 day: Number(day),
                 color: isDarkMode ? randLightCol() : randDarkCol(),
                 uniqueCode: undefined,
-                url: `/day/${day}`
+                url: `./${day}`
             },  arr.length + 1);
             
             // arr.splice(i + 1, 0, dayMore);
