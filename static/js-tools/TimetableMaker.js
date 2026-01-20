@@ -376,5 +376,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     else console.log("Timetable created successfully!");
 })
 document.addEventListener("resize", () => tooltip?.remove());
-window.addEventListener("focus", () => tooltip?.remove());
+window.addEventListener("focus", e => {
+    tooltip?.remove();
+
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+});
 window.addEventListener("focusout", () => tooltip?.remove());
