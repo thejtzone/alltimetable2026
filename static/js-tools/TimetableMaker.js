@@ -204,11 +204,8 @@ function createTimetable(data) {
         Object.entries(styling).forEach(([key, value]) => simulationDiv.style[key] = value);
         document.body.appendChild(simulationDiv);
         let width = simulationDiv.getBoundingClientRect().width;
-        while (width > fitWidth) {
-            text = text.slice(0, -1);
-            if (!text.endsWith("..."))
-                text += "...";
-
+        while (width > fitWidth && text.length > 0) {
+            text = text.replace("...", "").slice(0, -1) + "...";
             simulationDiv.textContent = text;
             width = simulationDiv.getBoundingClientRect().width;
         }
