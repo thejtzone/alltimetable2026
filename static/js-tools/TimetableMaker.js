@@ -1,6 +1,25 @@
 const DIV_ID = "timetable";
 const ASPECT_RATIO = 3 / 5;
 
+const isDarkMode = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) || getCookie("darkMode") === "true";
+if (isDarkMode) document.querySelector("html").style.colorScheme = "dark";
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 function isStringified(data) {
     if (typeof str !== "string") return false;
     try {
@@ -57,7 +76,7 @@ function createTimetable(data) {
         let blank = document.createElement("div");
         let blankStyles = {
             gridArea: `2 / ${i + 2} / ${24 * 60} / ${i + 2}`,
-            borderLeft: "1px solid rgba(0, 0, 0, 0.05)",
+            borderLeft: isDarkMode ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.05)",
             width: "100%",
             height: "100%",
         }
@@ -94,7 +113,8 @@ function createTimetable(data) {
         hr.style.gridArea = `${i + 2} / 1 / ${i + 2} / 9`;
         hr.style.width = "100%";
         hr.style.height = "100%";
-        hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
+        if (isDarkMode) hr.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)";
+        else hr.style.borderBottom = "1px solid rgba(0, 0, 0, 0.1)";
         div.appendChild(hr);
     }
     Array.from(div.children).at(-1).style.borderBottom = "";
@@ -108,7 +128,8 @@ function createTimetable(data) {
         headers.push(header);
 
         header.textContent = ["Time", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
-        header.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
+        if (isDarkMode) header.style.borderBottom = "1px solid rgba(255, 255, 255, 0.4)";
+        else header.style.borderBottom = "1px solid rgba(0, 0, 0, 0.4)";
         header.style.width = "100%";
         div.appendChild(header);
     }
@@ -117,7 +138,7 @@ function createTimetable(data) {
         let eventDiv = document.createElement("div");
         let styles = {
             gridArea: `${event.start + 2} / ${event.day + 2} / ${event.end + 2} / ${event.day + 2}`,
-            backgroundColor: event.color || randLightCol(),
+            backgroundColor: event.color || (isDarkMode ? randDarkCol() : randLightCol()),
             boxShadow: `0 0 ${heightWidthRatio < ASPECT_RATIO ? "0.5dvw" : "0.5dvh"} rgba(0, 0, 0, 0.4)`,
             width: "65%",
             height: "100%",
@@ -225,6 +246,7 @@ function moveTooltip(event, eID) {
 function pad(number, digits) {return String(number).padStart(digits, "0");}
 function randCol() {return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`; }
 function randLightCol() {return `rgb(${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)}, ${Math.floor(Math.random() * 128 + 127)})`; }
+function randDarkCol() {return `rgb(${Math.floor(Math.random() * 64 + 64)}, ${Math.floor(Math.random() * 64 + 64)}, ${Math.floor(Math.random() * 64 + 64)})`; }
 function neatTime(time) {return `${pad(Math.floor(time / 60), 2)}:${pad(time % 60, 2)}`}
 
 function createElement(element, options = {}) {
