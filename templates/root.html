@@ -13,3 +13,20 @@
     <iframe src="/internal/{{path}}" width="100%" height="100%"></iframe>
 
 </body>
+
+<script>
+
+    function href(href) {
+        document.querySelector('iframe').contentWindow.location.href = href;
+        window.history.pushState({}, '', href);
+    }
+
+    function handleMessage(event) {
+        switch (event.type) {
+            case 'href':
+        }
+    }
+
+    window.addEventListener('message', handleMessage);
+
+</script>

@@ -200,7 +200,11 @@ function createTimetable(data) {
                 return;
             }
         
-            window.location.href = code ? `/event/${code}` : url;
+            // window.location.href = code ? `/event/${code}` : url;
+            window.top.postMessage({
+                type: "href",
+                href: code ? `/event/${code}` : url
+            })
         })
 
         div.appendChild(eventDiv);
@@ -376,10 +380,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     else console.log("Timetable created successfully!");
 })
 document.addEventListener("resize", () => tooltip?.remove());
-window.addEventListener("focus", e => {
-    tooltip?.remove();
-
-    mouseX = e.pageX;
-    mouseY = e.pageY;
-});
-window.addEventListener("focusout", () => tooltip?.remove());
