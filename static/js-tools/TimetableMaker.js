@@ -157,7 +157,7 @@ function createTimetable(data) {
             if (Number(otherDuration) < Number(duration)) {
                 if (String(e.style.width).endsWith("%")) {
                     let perc = Number(e.style.width.replace("%", ""));
-                    perc -= 5;
+                    perc -= 10;
                     e.style.width = `${perc}%`;
                 } else e.style.width = `${Number(e.style.width) - 5}px`;
             } else if (Number(otherDuration) == Number(duration)) {
