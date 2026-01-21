@@ -29,6 +29,7 @@
     function checkDarkMode() {
         const isDarkMode = (x = getCookie("darkMode")) ? x === "true" : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (isDarkMode) document.querySelector("html").style.colorScheme = "dark";
+        return isDarkMode;
     }
     checkDarkMode();
 
@@ -50,7 +51,7 @@
 
     function openFilterAndSearchModal() {
         const colours = {
-            background: isDarkMode() ? "rgb(30, 30, 30)" : "rgb(255, 255, 255)",
+            background: checkDarkMode() ? "rgb(30, 30, 30)" : "rgb(255, 255, 255)",
         }
 
         const base = createElement("div", {styles: {
