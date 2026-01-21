@@ -70,7 +70,14 @@
             textAlign: "center",
         }, tc: "Enter search terms and filters here!"});
 
-        const blank = createElement("div", {append: base});
+        const blank = createElement("div", {append: base, styles: {
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gridAutoFlow: "row",
+            gridAutoRows: "min-content",
+            height: "minmax(10dvh, auto)",
+            width: "90%"
+        }});
 
         const buttonHolder = createElement("div", {append: base, styles: {
             display: "grid",
