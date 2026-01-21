@@ -49,6 +49,10 @@
     }
 
     function openFilterAndSearchModal() {
+        const colours = {
+            background: isDarkMode() ? "rgb(30, 30, 30)" : "rgb(255, 255, 255)",
+        }
+
         const base = createElement("div", {styles: {
             display: "grid",
             width: window.innerWidth > 800 ? "75dvw" : "90dvw",
@@ -59,7 +63,7 @@
             translate: "-50% -50%",
             zIndex: 101,
             borderRadius: "1dvh",
-            backgroundColor: "rgb(30, 30, 30)",
+            backgroundColor: colours.background,
             gridTemplateColumns: "1fr",
             gridTemplateRows: "min-content 1fr min-content",
             padding: "5dvh 5dvw"
