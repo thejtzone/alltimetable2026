@@ -1,14 +1,15 @@
-.addFilterButton { background-color: darkturquoise; }
-.confirmButton { background-color: aquamarine; }
+.addFilterButton { background-color: darkturquoise; margin-left: 7%; }
+.confirmButton { background-color: aquamarine; margin-right: 7%; }
 
 .addFilterButton, .confirmButton {
     border: none;
     color: white;
-    padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 2dvh;
+    padding: 1dvh 2dvh;
+    border-radius: 0.5dvh;
+    width: 80%;
     cursor: pointer;
 }
 

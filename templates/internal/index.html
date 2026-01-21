@@ -52,7 +52,7 @@
         const base = createElement("div", {styles: {
             display: "grid",
             width: window.innerWidth > 800 ? "75dvw" : "90dvw",
-            height: window.innerWidth > 800 ? "85dvh" : "95dvh",
+            height: `minmax(min-content, ${window.innerWidth > 800 ? "85dvh" : "95dvh"})`,
             position: "absolute",
             top: "50%",
             left: "50%",
