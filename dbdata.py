@@ -15,7 +15,8 @@ DB_CONN = os.getenv("DB_CONN")
 # Types:   text,       text / null, jsonb (array)
 
 
-# Getters
+##! Timetable 
+##@ Getters
 def get_user_timetable(identifier: str) -> list:
     conn = psycopg2.connect(DB_CONN)
     cur = conn.cursor()
@@ -62,7 +63,7 @@ def get_all_timetables() -> dict[str, list]:
     return timetables
 
 
-# Makers
+##@ Makers
 def add_event(identifier: str, event: dict) -> bool:
     fields = [
         "uniqueCode",   # (primary) Text
@@ -111,3 +112,115 @@ def add_event(identifier: str, event: dict) -> bool:
     cur.close()
     conn.close()
     return True
+
+
+##! User Accounts
+##@ Account Creation
+def create_user(username: str, encryptedPassword: str, displayname: str | None = None) -> bool:
+    conn = psycopg2.connect(DB_CONN)
+    cur = conn.cursor()    
+    
+    ##? Check if account already exists
+    cur.execute("SELECT * FROM accounts WHERE username = %s", (username,))
+    if cur.fetchone():
+        cur.close()
+        conn.close()
+        return False
+
+    ##? Add account
+    cur.execute("INSERT INTO accounts (username, password) VALUES (%s, %s)", (username, encryptedPassword))
+    conn.commit()
+
+    ##? Add user data (with default classlist)
+    cur.execute("INSERT INTO users (identifier, displayname, classlist) VALUES (%s, %s, '[]')", (username, displayname or username))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+    return True
+
+##@ Account Closure
+def delete_user(username: str) -> bool:
+    conn = psycopg2.connect(DB_CONN)
+    cur = conn.cursor()    
+
+    ##? Ensure account exists
+    cur.execute("SELECT * FROM accounts WHERE username = %s", (username,))
+    if not cur.fetchone():
+        cur.close()
+        conn.close()
+        return False
+
+    ##? Mark account as deleted
+    cur.execute("UPDATE accounts SET deactivated = true AND access_level = 'deactivated' WHERE username = %s", (username,))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+    return True
+
+def ban_user(username: str) -> bool:
+    conn = psycopg2.connect(DB_CONN)
+    cur = conn.cursor()    
+
+    ##? Ensure account exists
+    cur.execute("SELECT * FROM accounts WHERE username = %s", (username,))
+    if not cur.fetchone():
+        cur.close()
+        conn.close()
+        return False
+
+    ##? Mark account as banned
+    cur.execute("UPDATE accounts SET deactivated = true AND access_level = 'banned' WHERE username = %s", (username,))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+    return True
+
+##@ Account Access
+def generate_token(username: str, reuse_conn = None) -> str:
+    conn = reuse_conn or psycopg2.connect(DB_CONN)
+    cur = conn.cursor()    
+
+    ##? Ensure account exists
+    cur.execute("SELECT * FROM accounts WHERE username = %s", (username,))
+    if not cur.fetchone():
+        cur.close()
+        conn.close()
+        return ''
+    
+    ##? Generate token
+    token = ''.join(random.choices(string.ascii_uppercase + string.digits, k=32))
+    
+    ##? Add token to database
+    cur.execute("INSERT INTO tokens (token, username) VALUES (%s, %s)", (token, username))
+    conn.commit()
+
+    cur.close()
+    if not reuse_conn: conn.close()
+    return token
+
+def attempt_login(username: str, encryptedPassword: str) -> tuple[bool, str | None]:
+    conn = psycopg2.connect(DB_CONN)
+    cur = conn.cursor()    
+
+    ##? Ensure account exists
+    cur.execute("SELECT * FROM accounts WHERE username = %s", (username,))
+    if not cur.fetchone():
+        cur.close()
+        conn.close()
+        return False, None
+    
+    ##? Check password
+    cur.execute("SELECT * FROM accounts WHERE username = %s AND password = %s", (username, encryptedPassword))
+    if not cur.fetchone():
+        cur.close()
+        conn.close()
+        return False, None
+    
+    cur.close()
+    
+    ##? Generate token
+    token = generate_token(username, conn)
+    return True, token

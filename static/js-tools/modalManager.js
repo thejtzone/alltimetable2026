@@ -1,5 +1,5 @@
 const MODAL_ID = "modal";
-let modalOpenState = false;
+let modalOpenState = true;
 
 function ensureStyles() {
     const styles = {
@@ -13,7 +13,7 @@ function ensureStyles() {
         justifyContent: "center",
         alignItems: "center",
         zIndex: 100,
-        opacity: 0,
+        opacity: modalOpenState ? 1 : 0,
         pointerEvents: "none"
     }
 
@@ -29,7 +29,8 @@ function ensureStyles() {
 
 function openAnim() {
     let el = document.getElementById(MODAL_ID)
-    el.style.transitionDuration = "1s";
+    // el.style.transitionDuration = "1s";
+    el.style.transition = "opacity 1s";
     el.style.pointerEvents = "auto";
     setTimeout(() => el.style.opacity = 1, 1);
     modalOpenState = true;
@@ -37,7 +38,8 @@ function openAnim() {
 
 function closeAnim() {
     let el = document.getElementById(MODAL_ID)
-    el.style.transitionDuration = "1s";
+    // el.style.transitionDuration = "1s";
+    el.style.transition = "opacity 1s";
     setTimeout(() => el.style.opacity = 0, 1);
     setTimeout(() => el.style.pointerEvents = "none", 1000);
     modalOpenState = false;
